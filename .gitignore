@@ -1,0 +1,10 @@
+.DS_Store
+.pi/
+.env
+.env.*
+!.env.example
+node_modules/
+vendor/
+dist/
+__pycache__/
+.playground/
