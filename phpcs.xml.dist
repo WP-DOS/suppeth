@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<ruleset name="Suppeth">
+	<description>WordPress PHP coding standards for the production theme.</description>
+	<file>functions.php</file>
+	<file>patterns</file>
+	<arg name="extensions" value="php"/>
+	<rule ref="WordPress"/>
+	<!-- Core escapes JSON specifically for HTML block comments; HTML escaping breaks them. -->
+	<rule ref="WordPress.Security.EscapeOutput">
+		<properties>
+			<property name="customEscapingFunctions" type="array">
+				<element value="serialize_block_attributes"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>

@@ -1,0 +1,42 @@
+name: Theme checks and ZIP
+
+on:
+  push:
+    branches: [main, "feat/**", "fix/**", "chore/**", "docs/**", "refactor/**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  theme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install development checks
+        run: composer install --no-interaction --no-progress
+      - name: WordPress PHP coding standards
+        run: composer lint
+      - name: Check PHP and JavaScript syntax
+        run: |
+          find patterns -name '*.php' -print0 | xargs -0 -n1 php -l
+          php -l functions.php
+          php -l tests/fixtures/seed.php
+          node --check assets/image-descriptions.js
+          node --check assets/details.js
+      - name: Run structural and packaging tests
+        run: python3 -m unittest discover -s tests -v
+      - name: Package theme
+        run: python3 scripts/package-theme.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: suppeth-theme
+          path: dist/suppeth.zip
+          if-no-files-found: error
