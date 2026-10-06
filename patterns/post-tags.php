@@ -8,14 +8,9 @@
  * @package Suppeth
  */
 
-?>
-<!-- wp:post-terms
-<?php
-echo serialize_block_attributes(
+echo '<!-- wp:post-terms ' . serialize_block_attributes(
 	array(
 		'term'   => 'post_tag',
 		'prefix' => __( 'Tags: ', 'suppeth' ),
 	)
-);
-?>
-/-->
+) . ' /-->';

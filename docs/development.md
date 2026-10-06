@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Use PHP, Composer, Python 3.10+, and Node.js (CI uses Node 22). Theme runtime requires no build or Composer dependencies.
+Use PHP, Composer, Python 3.10+, and Node.js 24+ (required by the editor browser runner; CI uses Node 24). Theme runtime requires no build or Composer dependencies.
 
 From this repository root:
 
@@ -39,12 +39,20 @@ python3 scripts/check-runtime.py --php 7.4
 python3 scripts/check-runtime.py --preview
 ```
 
-The runner uses Playground CLI 3.1.57 and requires an explicit PHP success receipt, not merely a successful CLI exit. Structural tests use PHP stand-ins; runtime checks cover real registration, rendering and translation. Browser scripts in tests/*.browser.js are manual checks, not CI gates. With a running preview, for example:
+The runner uses Playground CLI 3.1.57 and requires an explicit PHP success receipt, not merely a successful CLI exit. Structural tests use PHP stand-ins and inspect emitted delimiters without normalization; runtime checks cover real registration, rendering, translation and parser round trips. CI also runs tests/pattern-validation.browser.js against the real Site Editor parser, checking all registered patterns, retained attributes and editor serialization round trips. Other browser scripts in tests/*.browser.js remain manual checks. With a running preview, for example:
 
 ```sh
 npx agent-browser --session suppeth-styles open http://127.0.0.1:9400/elements-proof/
 npx agent-browser --session suppeth-styles eval --stdin < tests/block-styles.browser.js
 ```
+
+For the editor-parser regression suite, with the disposable preview running:
+
+```sh
+python3 scripts/check-editor.py
+```
+
+The runner uses agent-browser 0.38.2, signs in with the public admin/password blueprint account when auto-login is unavailable, and closes only its own browser session. CI supplies --server-log to wait for Playground's explicit Ready message: HTTP may respond before blueprint seeding and login finish. Theme-supplied patterns are read-only in the library; see [header replacement](theme-reference.md#header-patterns).
 
 Repeat relevant checks at mobile widths and with keyboard/reduced-motion settings. See [theme reference](theme-reference.md) for scenario-specific scripts.
 

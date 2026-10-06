@@ -29,10 +29,8 @@ def read_markup(path):
             raise ValueError("Unexpected pattern namespace: " + slug)
         return read_markup(THEME / "patterns" / (slug.split("/")[1] + ".php"))
     source = re.sub(r'<!-- wp:pattern (\{[^\n]+\}) /-->', expand, source)
-    # Core accepts arbitrary whitespace around JSON in block delimiters.
-    return re.sub(r'(<!-- wp:[\w/-]+)\s+(\{.*?\})\s*(/?)-->',
-                  lambda m: m[1] + " " + m[2] + (" /-->" if m[3] else " -->"),
-                  source, flags=re.DOTALL)
+    # Assert the emitted markup verbatim; normalization can hide parser defects.
+    return source
 
 class ThemeTests(unittest.TestCase):
     def test_standalone_theme_identity(self):
@@ -52,6 +50,28 @@ class ThemeTests(unittest.TestCase):
         self.assertEqual(blueprint["preferredVersions"]["wp"], "7.1")
         development = (ROOT / "docs/development.md").read_text()
         self.assertIn("--wp=7.1", development)
+
+    def test_php_pattern_delimiters_are_canonical_without_normalization(self):
+        for path in THEME.glob("patterns/*.php"):
+            for translated in [False, True]:
+                with self.subTest(pattern=path.name, translated=translated):
+                    source = subprocess.run(
+                        ["php", str(ROOT / "tests/fixtures/pattern-stubs.php"), str(path)],
+                        env={**os.environ, "SUPPETH_TEST_TRANSLATION": "1" if translated else ""},
+                        check=True, capture_output=True, text=True,
+                    ).stdout
+                    for match in TOKEN.finditer(source):
+                        if match[1]:
+                            continue
+                        raw = match[3]
+                        standalone = raw.rstrip().endswith("/")
+                        attributes = raw.strip().removesuffix("/").strip()
+                        expected = "<!-- wp:" + match[2]
+                        if attributes:
+                            self.assertIsInstance(json.loads(attributes), dict)
+                            expected += " " + attributes
+                        expected += " /-->" if standalone else " -->"
+                        self.assertEqual(match[0], expected)
 
     def test_translations_and_subdirectory_home_link(self):
         for path in [*THEME.glob("templates/*.html"), *THEME.glob("parts/*.html")]:

@@ -8,14 +8,9 @@
  * @package Suppeth
  */
 
-?>
-<!-- wp:post-excerpt
-<?php
-echo serialize_block_attributes(
+echo '<!-- wp:post-excerpt ' . serialize_block_attributes(
 	array(
 		'moreText'      => __( 'Continue reading', 'suppeth' ),
 		'excerptLength' => 40,
 	)
-);
-?>
-/-->
+) . ' /-->';

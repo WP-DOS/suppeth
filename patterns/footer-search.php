@@ -22,9 +22,9 @@
 <!-- wp:site-tagline {"fontSize":"small","textColor":"muted"} /-->
 </div>
 <!-- /wp:group -->
-<!-- wp:navigation
+
 <?php
-echo serialize_block_attributes(
+echo '<!-- wp:navigation ' . serialize_block_attributes(
 	array(
 		'overlayMenu' => 'never',
 		'ariaLabel'   => __( 'Footer', 'suppeth' ),
@@ -34,16 +34,16 @@ echo serialize_block_attributes(
 			'flexWrap' => 'wrap',
 		),
 	)
-);
+) . ' /-->';
 ?>
-/-->
+
 </div>
 <!-- /wp:group -->
 <!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
 <div class="wp-block-group">
-<!-- wp:search
+
 <?php
-echo serialize_block_attributes(
+echo '<!-- wp:search ' . serialize_block_attributes(
 	array(
 		'label'         => __( 'Search the site', 'suppeth' ),
 		'showLabel'     => true,
@@ -51,9 +51,9 @@ echo serialize_block_attributes(
 		'buttonUseIcon' => true,
 		'className'     => 'suppeth-footer-search',
 	)
-);
+) . ' /-->';
 ?>
-/-->
+
 <!-- wp:paragraph {"fontSize":"small","textColor":"muted"} -->
 <p class="has-muted-color has-text-color has-small-font-size"><?php esc_html_e( 'Made with WordPress.', 'suppeth' ); ?></p>
 <!-- /wp:paragraph -->

@@ -8,15 +8,10 @@
  * @package Suppeth
  */
 
-?>
-<!-- wp:search
-<?php
-echo serialize_block_attributes(
+echo '<!-- wp:search ' . serialize_block_attributes(
 	array(
 		'label'      => __( 'Search', 'suppeth' ),
 		'showLabel'  => false,
 		'buttonText' => __( 'Search', 'suppeth' ),
 	)
-);
-?>
-/-->
+) . ' /-->';

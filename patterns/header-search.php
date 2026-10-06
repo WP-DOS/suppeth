@@ -20,9 +20,9 @@
 <!-- /wp:group -->
 <!-- wp:group {"className":"suppeth-header-tools","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"right"}} -->
 <div class="wp-block-group suppeth-header-tools"><!-- wp:navigation {"overlayMenu":"mobile","layout":{"type":"flex","justifyContent":"right"}} /-->
-<!-- wp:search
+
 <?php
-echo serialize_block_attributes(
+echo '<!-- wp:search ' . serialize_block_attributes(
 	array(
 		'label'         => __( 'Search the site', 'suppeth' ),
 		'showLabel'     => false,
@@ -30,9 +30,9 @@ echo serialize_block_attributes(
 		'buttonUseIcon' => true,
 		'className'     => 'suppeth-header-search',
 	)
-);
+) . ' /-->';
 ?>
-/--></div>
+</div>
 <!-- /wp:group -->
 </div>
 <!-- /wp:group -->
