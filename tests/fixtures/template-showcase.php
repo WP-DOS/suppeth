@@ -5,7 +5,9 @@
  * @package Suppeth
  * @since Suppeth 0.1.6
  */
-require_once '/wordpress/wp-load.php';
+if (!defined('ABSPATH')) {
+    throw new RuntimeException('Run this fixture through the local wp-env WP-CLI.');
+}
 if (!in_array(wp_parse_url(home_url(), PHP_URL_HOST), array('127.0.0.1', 'localhost'), true) || get_stylesheet() !== 'suppeth') {
     throw new RuntimeException('Template showcases require the local Suppeth sandbox.');
 }
@@ -65,6 +67,7 @@ $showcase_template = function ($slug, $title, $source) use ($showcase_upsert) {
 // inherited query would query that page, so use an explicit post query here.
 $index_page = $showcase_upsert('page', 'template-index-sidebar', 'Index with sidebar', '', $common);
 $index_source = file_get_contents(get_template_directory() . '/templates/index-sidebar.html');
+$index_source = serialize_blocks(resolve_pattern_blocks(parse_blocks($index_source)));
 $index_source = str_replace('"query":{"inherit":true}', '"query":{"perPage":4,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false}', $index_source);
 $showcase_template('page-template-index-sidebar', 'Preview: Index with Sidebar', $index_source);
 

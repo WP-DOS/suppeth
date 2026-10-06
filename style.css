@@ -560,8 +560,8 @@ header .wp-block-navigation-item__content[aria-current="page"] {
 	inline-size: 1rem;
 	block-size: 1rem;
 	background:
-		linear-gradient(currentColor, currentColor) center / 12px 1px no-repeat,
-		linear-gradient(currentColor, currentColor) center / 1px 12px no-repeat;
+		linear-gradient(currentcolor, currentcolor) center / 12px 1px no-repeat,
+		linear-gradient(currentcolor, currentcolor) center / 1px 12px no-repeat;
 	transform: rotate(0deg);
 	transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
 }

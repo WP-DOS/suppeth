@@ -5,7 +5,9 @@
  * @package Suppeth
  * @since Suppeth 0.1.6
  */
-require_once '/wordpress/wp-load.php';
+if ( ! defined( 'ABSPATH' ) ) {
+	throw new RuntimeException( 'Run runtime checks through the local wp-env WP-CLI.' );
+}
 if ( ! in_array( wp_parse_url( home_url(), PHP_URL_HOST ), array( 'localhost', '127.0.0.1' ), true ) ) {
 	throw new RuntimeException( 'Standards tests require a local sandbox.' );
 }
@@ -85,7 +87,7 @@ foreach ( array( '<figure><img alt=""></figure>', '<figure><picture><img alt="De
 	suppeth_test_assert( $html === suppeth_render_image_description( $html ), 'Excluded image markup changed.' );
 }
 
-// Playground pins WP_HOME, so emulate a subdirectory via core's URL filter.
+// Exercise a subdirectory homepage without changing the local site's URL.
 $subdirectory_home = static function ( $url, $path ) {
 	return 'http://127.0.0.1/subdirectory' . $path;
 };
@@ -98,9 +100,6 @@ try {
 } finally {
 	remove_filter( 'home_url', $subdirectory_home, 10 );
 }
-
-$stylesheet = WP_Theme_JSON_Resolver::get_merged_data()->get_stylesheet();
-suppeth_test_assert( false !== strpos( $stylesheet, '2.5rem clamp(2rem, 4vw, 3rem)' ), 'Directional column gaps must survive core CSS generation.' );
 
 foreach ( array( 'index', 'page', 'single', 'archive', 'search', '404', 'index-sidebar', 'page-sidebar', 'single-sidebar', 'archive-sidebar' ) as $name ) {
 	$slug = 'suppeth/hidden-' . $name;

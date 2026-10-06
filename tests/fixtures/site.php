@@ -190,6 +190,7 @@ $header_menu = $navigation(array('journal', 'services', 'portfolio', 'about'));
 $footer_menu = $navigation(array('resources', 'now', 'contact'));
 foreach (array('header' => $header_menu, 'footer' => $footer_menu) as $part => $ref) {
     $source = file_get_contents(get_stylesheet_directory() . '/parts/' . $part . '.html');
+    $source = serialize_blocks(resolve_pattern_blocks(parse_blocks($source)));
     $source = str_replace('<!-- wp:navigation {', '<!-- wp:navigation {"ref":' . $ref . ',', $source);
     $visit(parse_blocks($source));
     $id = $upsert('wp_template_part', $part, ucfirst($part), $source);

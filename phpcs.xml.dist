@@ -4,7 +4,24 @@
 	<file>functions.php</file>
 	<file>patterns</file>
 	<arg name="extensions" value="php"/>
+	<config name="minimum_wp_version" value="7.1"/>
+	<config name="testVersion" value="7.4-"/>
 	<rule ref="WordPress"/>
+	<rule ref="PHPCompatibilityWP"/>
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="suppeth"/>
+			</property>
+		</properties>
+	</rule>
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="suppeth"/>
+			</property>
+		</properties>
+	</rule>
 	<!-- Core escapes JSON specifically for HTML block comments; HTML escaping breaks them. -->
 	<rule ref="WordPress.Security.EscapeOutput">
 		<properties>

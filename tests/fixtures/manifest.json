@@ -1,0 +1,62 @@
+[
+  {
+    "source": "seed.php",
+    "destination": "/tmp/suppeth-seed.php"
+  },
+  {
+    "source": "blocks.html",
+    "destination": "/tmp/suppeth-blocks.html"
+  },
+  {
+    "source": "typography.html",
+    "destination": "/tmp/suppeth-typography.html"
+  },
+  {
+    "source": "landscape.png",
+    "destination": "/tmp/suppeth-landscape.png"
+  },
+  {
+    "source": "square.png",
+    "destination": "/tmp/suppeth-square.png"
+  },
+  {
+    "source": "thumbnail.png",
+    "destination": "/tmp/suppeth-thumbnail.png"
+  },
+  {
+    "source": "site.php",
+    "destination": "/tmp/suppeth-site.php"
+  },
+  {
+    "source": "contact.html",
+    "destination": "/tmp/suppeth-contact.html"
+  },
+  {
+    "source": "services.html",
+    "destination": "/tmp/suppeth-services.html"
+  },
+  {
+    "source": "portfolio.html",
+    "destination": "/tmp/suppeth-portfolio.html"
+  },
+  {
+    "source": "demo-contact.php",
+    "destination": "mu-plugins/suppeth-demo-contact.php"
+  },
+  {
+    "source": "demo-contact.js",
+    "destination": "mu-plugins/demo-contact.js"
+  },
+  {
+    "source": "elements-proof.html",
+    "destination": "/tmp/suppeth-elements-proof.html"
+  },
+  {
+    "source": "typography-proof.html",
+    "destination": "/tmp/suppeth-typography-proof.html"
+  },
+  {
+    "source": "template-showcase.php",
+    "destination": "/tmp/suppeth-template-showcase.php"
+  }
+]

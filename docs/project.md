@@ -10,11 +10,11 @@ Plain but usable means complete core templates, accessible defaults, restrained 
 
 The current theme has an editorial design, local fonts, optional headers, footers and sidebars, plus image-description and Details enhancements. This setup preserves that behavior. Neutralizing those defaults is future, separately scoped work.
 
-The development blueprint contains synthetic content for exercising the theme. Its fictional editorial site is a test harness, not demo content shipped to users or a copy of wp-dos.com.
+The development fixtures contain synthetic content for exercising the theme. Its fictional editorial site is a test harness, not demo content shipped to users or a copy of wp-dos.com.
 
 ## Ownership
 
-This repository owns theme code, tests, blueprints, fixtures, coding standards, packaging and CI. [WP-DOS/site](https://github.com/WP-DOS/site) imports a released commit as a submodule and owns website integration and deployment. Theme contributors need no site checkout.
+This repository owns theme code, tests, fixtures, coding standards, packaging and CI. [WP-DOS/site](https://github.com/WP-DOS/site) imports a released commit as a submodule and owns website integration and deployment. Theme contributors need no site checkout.
 
 wp-dos.com is an education-first WordPress publication. Suppeth may power it without becoming a dependency for its educational examples.
 

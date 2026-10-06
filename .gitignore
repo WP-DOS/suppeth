@@ -8,3 +8,6 @@ vendor/
 dist/
 __pycache__/
 .playground/
+.wp-env.override.json
+.phpcs-cache
+phpcs-report.xml

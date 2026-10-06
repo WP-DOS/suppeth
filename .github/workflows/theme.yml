@@ -9,41 +9,50 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: theme-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   theme:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
-          node-version: "24"
+          node-version-file: .nvmrc
+          cache: npm
       - name: Install development checks
-        run: composer install --no-interaction --no-progress
-      - name: WordPress PHP coding standards
-        run: composer lint
-      - name: Check PHP and JavaScript syntax
         run: |
-          find patterns -name '*.php' -print0 | xargs -0 -n1 php -l
+          composer validate --strict
+          npm ci
+          composer install --no-interaction --no-progress
+      - name: CSS, PHP and theme validation
+        run: npm run lint
+      - name: Check source syntax
+        run: |
+          find patterns scripts tests/fixtures -name '*.php' -print0 | xargs -0 -n1 php -l
           php -l functions.php
-          php -l tests/fixtures/seed.php
           node --check assets/image-descriptions.js
           node --check assets/details.js
-      - name: Run structural and packaging tests
-        run: python3 -m unittest discover -s tests -v
-      - name: Validate patterns with the WordPress editor parser
+      - name: Start the shared WordPress preview
+        run: npm run env:setup
+      - name: Install test browser
+        run: npx --yes agent-browser@0.38.2 install --with-deps
+      - name: Packaging safety and WordPress regressions
         run: |
-          npx --yes agent-browser@0.38.2 install --with-deps
-          npx --yes @wp-playground/cli@3.1.57 server --wp=7.1 --php=8.3 --mount=.:/wordpress/wp-content/themes/suppeth --blueprint=tests/blueprint.json --blueprint-may-read-adjacent-files > "$RUNNER_TEMP/suppeth-playground.log" 2>&1 &
-          server_pid=$!
-          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
-          python3 scripts/check-editor.py --server-log "$RUNNER_TEMP/suppeth-playground.log"
+          npm test
+          npm run env:check
       - name: Package theme
-        run: python3 scripts/package-theme.py
+        run: npm run package
       - uses: actions/upload-artifact@v4
         with:
           name: suppeth-theme
           path: dist/suppeth.zip
           if-no-files-found: error
+      - name: Stop preview
+        if: always()
+        run: npm run env:stop || true
