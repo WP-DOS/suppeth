@@ -7,6 +7,7 @@
  * Description: Centered branding, site description, navigation, and WordPress credit.
  *
  * @package Suppeth
+ * @since Suppeth 0.1.5
  */
 
 ?>

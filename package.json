@@ -1,0 +1,47 @@
+{
+  "name": "suppeth",
+  "private": true,
+  "engines": {
+    "node": ">=24.18.0",
+    "npm": ">=11.16.0"
+  },
+  "scripts": {
+    "wp-env": "wp-env",
+    "env:prepare": "node -e \"require('node:fs').mkdirSync('node_modules/.wp-env-empty', { recursive: true })\"",
+    "env:start": "npm run env:prepare && wp-env start",
+    "env:setup": "npm run env:start && wp-env run cli wp theme activate suppeth && npm run env:seed",
+    "env:seed": "wp-env run cli wp eval-file wp-content/themes/suppeth/scripts/seed-wp-env.php",
+    "env:check": "wp-env run cli wp eval-file wp-content/themes/suppeth/tests/fixtures/check-preview.php",
+    "test:editor": "node bin/check-editor.mjs",
+    "test:runtime": "wp-env run cli wp eval-file wp-content/themes/suppeth/tests/fixtures/standards.php",
+    "test:unit": "node --test tests/*.test.mjs",
+    "env:status": "wp-env status",
+    "env:stop": "wp-env stop",
+    "env:reset": "wp-env reset",
+    "env:theme-check": "wp-env run cli wp plugin install theme-check --activate",
+    "lint": "npm run lint:css && npm run lint:php && npm run lint:theme",
+    "lint:css": "stylelint \"**/*.css\"",
+    "lint:css:fix": "npm run lint:css -- --fix",
+    "lint:php": "composer lint",
+    "lint:php:fix": "composer format",
+    "lint:theme": "node bin/validate-theme.mjs",
+    "lint:staged": "lint-staged",
+    "test": "npm run test:unit && npm run test:runtime && npm run test:editor",
+    "package": "node bin/package-theme.mjs"
+  },
+  "allowScripts": {
+    "fs-ext-extra-prebuilt": false
+  },
+  "overrides": {
+    "qs": "6.16.0"
+  },
+  "devDependencies": {
+    "@wordpress/env": "11.16.0",
+    "@wordpress/stylelint-config": "26.0.0",
+    "ajv": "8.20.0",
+    "fflate": "0.8.3",
+    "lint-staged": "17.5.1",
+    "stylelint": "17.16.0",
+    "stylelint-scss": "7.2.0"
+  }
+}

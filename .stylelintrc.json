@@ -1,0 +1,15 @@
+{
+  "extends": "@wordpress/stylelint-config",
+  "rules": {
+    "at-rule-empty-line-before": null,
+    "comment-empty-line-before": null,
+    "rule-empty-line-before": null,
+    "no-descending-specificity": null,
+    "selector-class-pattern": [
+      "^[a-z][a-z0-9]*(?:(?:__|--|-)[a-z0-9]+)*$",
+      {
+        "message": "Use lowercase class names with hyphen or BEM separators."
+      }
+    ]
+  }
+}

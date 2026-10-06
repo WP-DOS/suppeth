@@ -7,6 +7,7 @@
  * Description: Centered logo and site title with the menu underneath.
  *
  * @package Suppeth
+ * @since Suppeth 0.1.5
  */
 
 ?>

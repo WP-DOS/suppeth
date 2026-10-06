@@ -1,4 +1,9 @@
-// Native widths, image eligibility, insets, captions, and animated ALT disclosure.
+/**
+ * Native widths, image eligibility, insets, captions, and animated ALT disclosure.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 (async () => {
 	const scope = document.querySelector(".wp-block-post-content");
 	const covers = [...scope.querySelectorAll(".wp-block-cover")];

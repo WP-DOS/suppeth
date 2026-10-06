@@ -2,7 +2,10 @@
 /**
  * Load the same small stylesheet in the editor and on the front end.
  *
+ * @link https://developer.wordpress.org/themes/basics/theme-functions/
+ *
  * @package Suppeth
+ * @since Suppeth 0.1.5
  */
 
 add_action(

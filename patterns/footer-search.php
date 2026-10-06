@@ -7,6 +7,7 @@
  * Description: Branding and navigation above a labelled site search and WordPress credit.
  *
  * @package Suppeth
+ * @since Suppeth 0.1.5
  */
 
 ?>

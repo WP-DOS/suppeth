@@ -1,4 +1,9 @@
-// Run from /templates/ in the local preview; validates menu links and actual layouts.
+/**
+ * Run from /templates/ in the local preview; validates menu links and actual layouts.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 (async () => {
     const submenu = [...document.querySelectorAll('header .wp-block-navigation-submenu')]
         .find((node) => node.querySelector('a')?.textContent.trim() === 'Templates');

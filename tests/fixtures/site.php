@@ -1,5 +1,10 @@
 <?php
-/** Editorial demo; loaded by seed.php only inside the disposable local preview. */
+/**
+ * Editorial demo; loaded by seed.php only inside the disposable local preview.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 if (!isset($upsert, $visit, $author_id) || !in_array(wp_parse_url(home_url(), PHP_URL_HOST), array('127.0.0.1', 'localhost'), true)) {
     throw new Exception('Run the local fixture seeder first.');
 }
@@ -185,6 +190,7 @@ $header_menu = $navigation(array('journal', 'services', 'portfolio', 'about'));
 $footer_menu = $navigation(array('resources', 'now', 'contact'));
 foreach (array('header' => $header_menu, 'footer' => $footer_menu) as $part => $ref) {
     $source = file_get_contents(get_stylesheet_directory() . '/parts/' . $part . '.html');
+    $source = serialize_blocks(resolve_pattern_blocks(parse_blocks($source)));
     $source = str_replace('<!-- wp:navigation {', '<!-- wp:navigation {"ref":' . $ref . ',', $source);
     $visit(parse_blocks($source));
     $id = $upsert('wp_template_part', $part, ucfirst($part), $source);

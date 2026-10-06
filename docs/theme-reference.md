@@ -4,7 +4,7 @@ Current behavior, not the future neutral-design specification. Run browser check
 
 ## Customize
 
-Template-owned text comes from hidden PHP patterns so headings, labels, navigation, and recovery messages can be translated. Bundled translations can live under `languages/`. These remain native editable blocks; saved Site Editor customizations are not automatically replaced or translated by a theme update.
+Each file in `templates/` references a complete hidden PHP pattern, such as `patterns/hidden-404.php`. These patterns are registered with `Inserter: no`: they supply editable template blocks without appearing in the pattern inserter. Template-owned text comes from hidden PHP patterns so headings, labels, navigation, and recovery messages can be translated. Bundled translations can live under `languages/`. These remain native editable blocks; saved Site Editor customizations are not automatically replaced or translated by a theme update.
 
 The default homepage is the latest-posts index. An empty site shows a no-results message and search. For a static homepage, create a page and select it under **Settings → Reading**. Navigation uses the native block; add links in the Site Editor.
 

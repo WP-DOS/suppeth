@@ -2,6 +2,9 @@
 /**
  * Plugin Name: Suppeth Local Demo Contact
  * Description: Local-only form specimen. Never sends or stores messages.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
  */
 if (!defined('ABSPATH') || !in_array(wp_parse_url(home_url(), PHP_URL_HOST), array('127.0.0.1', 'localhost'), true)) {
     return;

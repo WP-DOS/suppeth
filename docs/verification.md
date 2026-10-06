@@ -1,5 +1,17 @@
 # Setup verification
 
+Current commands and tooling are documented in [development](development.md). Historical sections retain the results from the retired Python/Playground harness.
+
+## Toolchain consolidation (0.1.7)
+
+- WordPress CSS/PHP lint and the adapted Ipsum theme validator passed.
+- All three Node packaging/safety tests passed, including byte-identical ZIPs across different time zones and rejection of hosted-site editor checks.
+- The PHP runtime suite passed against WordPress 7.1.2 in wp-env, covering PHP-generated and translated patterns, native template-part discovery, rendered templates, subdirectory links and image-description escaping.
+- The actual Site Editor parser validated all 20 patterns, including all eight replacement designs, with valid serialization round trips.
+- Shared fixtures seeded successfully in Docker; the preview check confirmed the showcase routes, template assignments and repeat-seeding menu behavior.
+- Node packaging produced `dist/suppeth.zip` using the runtime allowlist. Contributor tools, fixtures and dependencies remain excluded.
+- Python tests/runners and Playground configuration were removed. CI now uses the same npm/Composer/wp-env commands as local development; GitHub Actions execution itself has not been verified locally.
+
 ## Runtime compatibility
 
 scripts/check-runtime.py produced explicit successful PHP receipts using Playground CLI 3.1.57:

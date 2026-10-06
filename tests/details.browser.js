@@ -1,4 +1,9 @@
-// Run on /services/ with normal motion, then `set media light reduced-motion` and reload.
+/**
+ * Run on /services/ with normal motion, then `set media light reduced-motion` and reload.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 (async () => {
     const details = [...document.querySelectorAll('details.wp-block-details')];
     if (details.length < 2) throw new Error('Missing accordion fixture');

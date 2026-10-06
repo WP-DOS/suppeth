@@ -1,4 +1,9 @@
-// Run on a frontend page after replacing the Footer template part with a pattern.
+/**
+ * Run on a frontend page after replacing the Footer template part with a pattern.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 (async () => {
   await document.fonts.ready;
   const failures = [];

@@ -7,6 +7,7 @@
  * Description: Branding, a vertical menu, and recent posts in three columns that stack on mobile.
  *
  * @package Suppeth
+ * @since Suppeth 0.1.5
  */
 
 ?>

@@ -7,6 +7,7 @@
  * Description: Branding and search on the first row with navigation below.
  *
  * @package Suppeth
+ * @since Suppeth 0.1.5
  */
 
 ?>

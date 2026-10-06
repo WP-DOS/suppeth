@@ -1,4 +1,9 @@
-// Run on the demo homepage, journal, or an information page at desktop/mobile widths.
+/**
+ * Run on the demo homepage, journal, or an information page at desktop/mobile widths.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 (() => {
     const failures = [];
     const headerLinks = [...document.querySelectorAll('header .wp-block-navigation-item__content')];

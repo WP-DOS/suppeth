@@ -1,4 +1,9 @@
-/* Optional, dependency-free image enhancement; alt attributes remain the fallback. */
+/**
+ * Optional, dependency-free image enhancement; alt attributes remain the fallback.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.5
+ */
 (() => {
 	const MIN_WIDTH = 320;
 	const MIN_HEIGHT = 160;

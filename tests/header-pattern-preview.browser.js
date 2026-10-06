@@ -1,5 +1,10 @@
-// Run once in the local Site Editor to save the original header, then on the frontend.
-// Set suppeth-header-pattern in sessionStorage to a pattern slug or "restore".
+/**
+ * Run once in the local Site Editor to save the original header, then on the frontend.
+ * Set suppeth-header-pattern in sessionStorage to a pattern slug or "restore".
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 (async () => {
   if (!['localhost', '127.0.0.1'].includes(location.hostname)) throw new Error('Local preview only');
   let state = JSON.parse(sessionStorage.getItem('suppeth-header-test'));

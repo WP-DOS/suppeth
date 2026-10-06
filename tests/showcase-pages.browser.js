@@ -1,4 +1,9 @@
-// Run on /services/, /portfolio/, or /contact/ in the local preview.
+/**
+ * Run on /services/, /portfolio/, or /contact/ in the local preview.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 (async () => {
     const content = document.querySelector('.wp-block-post-content');
     const failures = [];

@@ -1,4 +1,9 @@
-// Run on either legacy regression page or the new independent proof pages.
+/**
+ * Run on either legacy regression page or the new independent proof pages.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 (async () => {
 	const scope = document.querySelector('.wp-block-post-content');
 	if (!scope) throw new Error('Missing post content');

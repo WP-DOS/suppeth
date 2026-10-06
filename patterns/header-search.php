@@ -7,6 +7,7 @@
  * Description: Branding, navigation, and a compact search field in a responsive row.
  *
  * @package Suppeth
+ * @since Suppeth 0.1.5
  */
 
 ?>

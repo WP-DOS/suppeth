@@ -1,4 +1,9 @@
-// Run on /sample-guide-1/ in the disposable local Playground.
+/**
+ * Run on /sample-guide-1/ in the disposable local Playground.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 (() => {
     const failures = [];
     for (const selector of ['.wp-block-post-terms.taxonomy-category', '.wp-block-post-terms.taxonomy-post_tag', '.wp-block-post-author__bio', '.wp-block-comment-template .depth-2', '.wp-block-comment-reply-link', '.wp-block-post-comments-form']) {

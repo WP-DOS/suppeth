@@ -1,6 +1,13 @@
 <?php
-/** Seed only the disposable local Playground, never the WordPress.com site. */
-require '/wordpress/wp-load.php';
+/**
+ * Seed only a disposable local preview, never a real website.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
+if (!defined('ABSPATH')) {
+    throw new RuntimeException('Run this fixture through the local wp-env WP-CLI.');
+}
 
 if (!in_array(wp_parse_url(home_url(), PHP_URL_HOST), array('127.0.0.1', 'localhost'), true)) {
     throw new Exception('Suppeth fixtures are restricted to local preview sites.');
