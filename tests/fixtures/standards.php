@@ -17,6 +17,7 @@ foreach ( glob( get_template_directory() . '/patterns/*.php' ) as $file ) {
 	suppeth_test_assert( $registry->is_registered( $slug ), 'Missing pattern: ' . $slug );
 	$pattern = $registry->get_registered( $slug );
 	suppeth_test_assert( ! empty( parse_blocks( $pattern['content'] ) ), 'Unparseable pattern: ' . $slug );
+	suppeth_test_assert( serialize_blocks( parse_blocks( $pattern['content'] ) ) === $pattern['content'], 'Pattern delimiter or attributes changed during parsing: ' . $slug );
 }
 
 // Real core serialization must survive translated quotes and comment delimiters.
@@ -28,6 +29,7 @@ foreach ( glob( get_template_directory() . '/patterns/*.php' ) as $file ) {
 	ob_start();
 	include $file;
 	$markup = ob_get_clean();
+	suppeth_test_assert( serialize_blocks( parse_blocks( $markup ) ) === $markup, 'Translated pattern changed during parsing: ' . $file );
 	preg_match_all( '/<!-- wp:[\w\/-]+\s+(\{.*?\})\s*\/?-->/s', $markup, $comments );
 	foreach ( $comments[1] as $json ) {
 		$attributes = json_decode( $json, true );

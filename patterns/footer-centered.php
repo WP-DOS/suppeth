@@ -17,9 +17,9 @@
 <!-- wp:site-logo {"width":48,"align":"center"} /-->
 <!-- wp:site-title {"level":0,"textAlign":"center","fontSize":"small"} /-->
 <!-- wp:site-tagline {"textAlign":"center","fontSize":"small","textColor":"muted"} /-->
-<!-- wp:navigation
+
 <?php
-echo serialize_block_attributes(
+echo '<!-- wp:navigation ' . serialize_block_attributes(
 	array(
 		'overlayMenu' => 'never',
 		'ariaLabel'   => __( 'Footer', 'suppeth' ),
@@ -30,9 +30,9 @@ echo serialize_block_attributes(
 			'justifyContent' => 'center',
 		),
 	)
-);
+) . ' /-->';
 ?>
-/-->
+
 <!-- wp:paragraph {"align":"center","fontSize":"small","textColor":"muted"} -->
 <p class="has-text-align-center has-muted-color has-text-color has-small-font-size"><?php esc_html_e( 'Made with WordPress.', 'suppeth' ); ?></p>
 <!-- /wp:paragraph -->

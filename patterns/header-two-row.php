@@ -18,9 +18,9 @@
 <div class="wp-block-group suppeth-header-brand"><!-- wp:site-logo {"width":40} /-->
 <!-- wp:site-title {"level":0} /--></div>
 <!-- /wp:group -->
-<!-- wp:search
+
 <?php
-echo serialize_block_attributes(
+echo '<!-- wp:search ' . serialize_block_attributes(
 	array(
 		'label'         => __( 'Search the site', 'suppeth' ),
 		'showLabel'     => false,
@@ -28,9 +28,9 @@ echo serialize_block_attributes(
 		'buttonUseIcon' => true,
 		'className'     => 'suppeth-header-search',
 	)
-);
+) . ' /-->';
 ?>
-/-->
+
 </div>
 <!-- /wp:group -->
 <!-- wp:group {"align":"wide","className":"suppeth-header-menu-row","style":{"spacing":{"padding":{"bottom":"var:preset|spacing|40"}}},"layout":{"type":"flex","justifyContent":"center"}} -->

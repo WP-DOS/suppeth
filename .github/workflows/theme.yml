@@ -33,6 +33,13 @@ jobs:
           node --check assets/details.js
       - name: Run structural and packaging tests
         run: python3 -m unittest discover -s tests -v
+      - name: Validate patterns with the WordPress editor parser
+        run: |
+          npx --yes agent-browser@0.38.2 install --with-deps
+          npx --yes @wp-playground/cli@3.1.57 server --wp=7.1 --php=8.3 --mount=.:/wordpress/wp-content/themes/suppeth --blueprint=tests/blueprint.json --blueprint-may-read-adjacent-files > "$RUNNER_TEMP/suppeth-playground.log" 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          python3 scripts/check-editor.py
       - name: Package theme
         run: python3 scripts/package-theme.py
       - uses: actions/upload-artifact@v4

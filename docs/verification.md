@@ -21,7 +21,20 @@ These checks cover registration, translated block attributes, image-description 
 - Local documentation links and whitespace checks passed, except the explicitly pending site submodule pointer to the theme's new AGENTS.md.
 - Fixed preview: scripts/check-runtime.py --preview passed on WordPress 7.1.2 / PHP 8.3.33, confirming theme activation and the expected synthetic pages, posts and comments.
 
-## Scope limits
+## Pattern delimiter fix (0.1.6)
+
+The PHP-generated block comments now use canonical delimiters. Structural checks inspect emitted markup verbatim rather than normalizing it first.
+
+- Before the fix, the delimiter regression failed in 24 plain/translated cases, and the actual editor parser reported invalid blocks or lost attributes in header, footer, navigation and no-results patterns.
+- After the fix, all 26 structural, packaging and browser-runner tests passed.
+- The real Site Editor parser validated all 19 registered Suppeth patterns, including all 8 header/footer replacement patterns, with retained attributes and valid serialization round trips.
+- WordPress 7.1.2 runtime checks, including plain and translated PHP parser round trips, passed on PHP 8.3.33 and 7.4.33.
+- WordPress coding standards, PHP/JavaScript syntax checks and deterministic ZIP packaging passed.
+- The editor-parser check is now a theme CI gate; its readiness probe retains Playground's auto-login cookie.
+
+Theme pattern-library entries remain read-only by design. Apply a header by editing or replacing its template part, as described in the theme reference.
+
+## Setup scope limits
 
 Browser checks and hosted-site deployment were not run. Theme runtime files and appearance are unchanged.
 

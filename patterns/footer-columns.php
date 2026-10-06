@@ -27,9 +27,9 @@
 <!-- wp:heading {"level":2,"fontSize":"small"} -->
 <h2 class="wp-block-heading has-small-font-size"><?php esc_html_e( 'Explore', 'suppeth' ); ?></h2>
 <!-- /wp:heading -->
-<!-- wp:navigation
+
 <?php
-echo serialize_block_attributes(
+echo '<!-- wp:navigation ' . serialize_block_attributes(
 	array(
 		'overlayMenu' => 'never',
 		'ariaLabel'   => __( 'Footer', 'suppeth' ),
@@ -39,9 +39,9 @@ echo serialize_block_attributes(
 			'orientation' => 'vertical',
 		),
 	)
-);
+) . ' /-->';
 ?>
-/-->
+
 </div>
 <!-- /wp:column -->
 <!-- wp:column -->

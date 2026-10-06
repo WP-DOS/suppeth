@@ -17,9 +17,9 @@
 <!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
 <div class="wp-block-group">
 <!-- wp:site-title {"level":0,"fontSize":"small"} /-->
-<!-- wp:navigation
+
 <?php
-echo serialize_block_attributes(
+echo '<!-- wp:navigation ' . serialize_block_attributes(
 	array(
 		'overlayMenu' => 'never',
 		'ariaLabel'   => __( 'Footer', 'suppeth' ),
@@ -29,9 +29,9 @@ echo serialize_block_attributes(
 			'flexWrap' => 'wrap',
 		),
 	)
-);
+) . ' /-->';
 ?>
-/-->
+
 </div>
 <!-- /wp:group -->
 <!-- wp:paragraph {"fontSize":"small","textColor":"muted"} -->

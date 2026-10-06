@@ -10,28 +10,28 @@
 
 ?>
 <!-- wp:group {"tagName":"nav","className":"suppeth-post-navigation","layout":{"type":"default"}} -->
-<nav class="wp-block-group suppeth-post-navigation"><!-- wp:post-navigation-link
+<nav class="wp-block-group suppeth-post-navigation">
 <?php
-echo serialize_block_attributes(
+echo '<!-- wp:post-navigation-link ' . serialize_block_attributes(
 	array(
 		'type'      => 'previous',
 		'label'     => __( 'Previous article', 'suppeth' ),
 		'showTitle' => true,
 		'linkLabel' => true,
 	)
-);
+) . ' /-->';
 ?>
-/-->
-<!-- wp:post-navigation-link
+
+
 <?php
-echo serialize_block_attributes(
+echo '<!-- wp:post-navigation-link ' . serialize_block_attributes(
 	array(
 		'type'      => 'next',
 		'label'     => __( 'Next article', 'suppeth' ),
 		'showTitle' => true,
 		'linkLabel' => true,
 	)
-);
+) . ' /-->';
 ?>
-/--></nav>
+</nav>
 <!-- /wp:group -->

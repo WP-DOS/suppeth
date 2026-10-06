@@ -23,9 +23,9 @@ Edit the shared **Sidebar** template part in the Site Editor to change its categ
 
 ## Header patterns
 
-Four optional patterns are available under **Headers** in the Site Editor: **Header with search**, **Centered header**, **Two-row header with search**, and **Sticky header**. Edit the Header template part, then use its replacement patterns or replace its blocks with a pattern from the inserter. The default header stays unchanged until you choose a replacement.
+Four optional patterns are available under **Headers** in the Site Editor: **Header with search**, **Centered header**, **Two-row header with search**, and **Sticky header**. This theme-supplied library is read-only, not an active-header selector. Open **Patterns → Header** (singular), edit the Header template part, then replace its blocks with a pattern from the inserter. Alternatively, select the Header template part in a template and use its replacement patterns. The default header stays unchanged until you save a replacement.
 
-Each pattern uses native Site Logo, Site Title, and Navigation blocks. Set a logo in the Site Logo block and choose your menu in Navigation; patterns contain no fixed links or menu IDs. The search variants use the native Search block. All blocks remain editable. Theme version 0.1.5 invalidates WordPress's cached pattern list and the theme stylesheet on deployment.
+Each pattern uses native Site Logo, Site Title, and Navigation blocks. Set a logo in the Site Logo block and choose your menu in Navigation; patterns contain no fixed links or menu IDs. The search variants use the native Search block. All blocks remain editable. Theme version changes invalidate WordPress's cached pattern list and the theme stylesheet. Version 0.1.6 fixes PHP-generated block delimiters so search headers and footer patterns parse correctly in the editor.
 
 The sticky variant keeps the entire Header template part visible while scrolling, with a solid background and an offset for the WordPress admin bar. It is intended for the Header template part, not insertion inside page content. Keep this header compact so it leaves room for reading on small screens. The Site Editor canvas is for editing; check sticky behavior on the frontend.
 
