@@ -15,7 +15,7 @@ Clone this repository into `wp-content/themes/suppeth`, then activate **Suppeth*
 
 Work on a feature branch and open a pull request into `main`. Direct pushes to `main` are blocked.
 
-The [WP-DOS site repository](https://github.com/WP-DOS/wp-dos.com) consumes this theme as a submodule and contains its development checks and packaging tools. After merging a theme change, update that repository's submodule commit through a pull request into `develop`.
+The [WP-DOS site repository](https://github.com/WP-DOS/site) consumes this theme as a submodule and contains its development checks and packaging tools. After merging a theme change, update that repository's submodule commit through a pull request into `develop`.
 
 ## License
 
