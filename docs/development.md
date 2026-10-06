@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Use PHP, Composer, Python 3.10+, and Node.js (CI uses Node 22). Theme runtime requires no build or Composer dependencies.
+Use PHP, Composer, Python 3.10+, and Node.js 24+ (required by the editor browser runner; CI uses Node 24). Theme runtime requires no build or Composer dependencies.
 
 From this repository root:
 
@@ -52,7 +52,7 @@ For the editor-parser regression suite, with the disposable preview running:
 python3 scripts/check-editor.py
 ```
 
-The runner uses agent-browser 0.38.2 and closes only its own browser session. Theme-supplied patterns are read-only in the library; see [header replacement](theme-reference.md#header-patterns).
+The runner uses agent-browser 0.38.2, signs in with the public admin/password blueprint account when auto-login is unavailable, and closes only its own browser session. Theme-supplied patterns are read-only in the library; see [header replacement](theme-reference.md#header-patterns).
 
 Repeat relevant checks at mobile widths and with keyboard/reduced-motion settings. See [theme reference](theme-reference.md) for scenario-specific scripts.
 

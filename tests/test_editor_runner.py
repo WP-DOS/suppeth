@@ -33,13 +33,20 @@ class EditorRunnerTests(unittest.TestCase):
         thread.start()
         try:
             # A broken redirect probe fails immediately rather than waiting 90 seconds.
-            clock = SimpleNamespace(monotonic=Mock(side_effect=[0, 91]), sleep=Mock())
-            with patch.object(runner, "time", clock), patch.object(runner.subprocess, "run") as commands:
-                runner.check("http://127.0.0.1:" + str(server.server_port))
-                self.assertEqual(commands.call_count, 4)
-                self.assertEqual(commands.call_args_list[2].args[0][-2:], ["eval", "--stdin"])
-                self.assertIn("wp.blocks.parse", commands.call_args_list[2].kwargs["input"])
-                self.assertEqual(commands.call_args_list[-1].args[0][-1], "close")
+            for login_required in [False, True]:
+                with self.subTest(login_required=login_required):
+                    clock = SimpleNamespace(monotonic=Mock(side_effect=[0, 91]), sleep=Mock())
+                    with patch.object(runner, "time", clock), patch.object(runner.subprocess, "run") as commands:
+                        commands.return_value = SimpleNamespace(stdout="true" if login_required else "false")
+                        runner.check("http://127.0.0.1:" + str(server.server_port))
+                        self.assertEqual(commands.call_count, 8 if login_required else 5)
+                        self.assertEqual(commands.call_args_list[-2].args[0][-2:], ["eval", "--stdin"])
+                        self.assertIn("wp.blocks.parse", commands.call_args_list[-2].kwargs["input"])
+                        self.assertEqual(commands.call_args_list[-1].args[0][-1], "close")
+                        if login_required:
+                            self.assertEqual(commands.call_args_list[2].args[0][-3:], ["fill", "#user_login", "admin"])
+                            self.assertEqual(commands.call_args_list[3].args[0][-3:], ["fill", "#user_pass", "password"])
+                            self.assertEqual(commands.call_args_list[4].args[0][-2:], ["click", "#wp-submit"])
         finally:
             server.shutdown()
             server.server_close()

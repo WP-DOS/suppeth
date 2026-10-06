@@ -32,6 +32,13 @@ def check(url):
     command = ["npx", "--yes", "agent-browser@0.38.2", "--session", "suppeth-pattern-validation"]
     try:
         subprocess.run(command + ["open", url.rstrip("/") + "/wp-admin/site-editor.php"], check=True)
+        login = subprocess.run(command + ["eval", "Boolean(document.querySelector('#loginform'))"],
+                               capture_output=True, text=True, check=True)
+        if login.stdout.strip() == "true":
+            # Public blueprint credentials only; this runner rejects hosted sites.
+            subprocess.run(command + ["fill", "#user_login", "admin"], check=True)
+            subprocess.run(command + ["fill", "#user_pass", "password"], check=True)
+            subprocess.run(command + ["click", "#wp-submit"], check=True)
         subprocess.run(command + ["wait", "--fn", "Boolean(window.wp?.blocks && window.wp?.apiFetch)"], check=True)
         subprocess.run(command + ["eval", "--stdin"],
                        input=(ROOT / "tests/pattern-validation.browser.js").read_text(),

@@ -19,7 +19,7 @@ jobs:
           python-version: "3.12"
       - uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: "24"
       - name: Install development checks
         run: composer install --no-interaction --no-progress
       - name: WordPress PHP coding standards
