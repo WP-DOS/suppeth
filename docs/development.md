@@ -29,7 +29,7 @@ npx @wp-playground/cli@3.1.57 server --wp=7.1 --php=8.3 --define WP_DEVELOPMENT_
 
 The sandbox is disposable. Stop and recreate it to reset content and saved template overrides. Never run fixture seeders against a real website. Blueprint login credentials are public test-only values, not production secrets.
 
-The fixtures cover long content, pagination, navigation, images, comments, typography, core blocks and empty/disabled controls. The Quiet Edit is a fictional test site with /journal/, /services/, /portfolio/ and /contact/. Independent proofs live at /elements-proof/ and /typography-proof/; legacy checks use /block-style-test/ and /typography-test/. The local contact helper never sends or stores messages.
+The fixtures cover long content, pagination, navigation, images, comments, typography, core blocks and empty/disabled controls. A **Templates** submenu links to eight default/sidebar comparisons; start at /templates/. New routes are /template-page/, /template-page-sidebar/, /template-post-sidebar/, /template-index-sidebar/, and /category/template-showcase/. Page and Post examples use native template assignments. Index and Archive examples use route-scoped, preview-only saved templates sourced from the theme files, with pattern references expanded before saving to preserve query/pagination context; the normal Journal and other category archives stay unchanged. The showcase seeder updates its own content and replaces its own submenu entry when rerun. The Quiet Edit is a fictional test site with /journal/, /services/, /portfolio/ and /contact/. Independent proofs live at /elements-proof/ and /typography-proof/; legacy checks use /block-style-test/ and /typography-test/. The local contact helper never sends or stores messages.
 
 ## Runtime checks
 
@@ -53,6 +53,8 @@ python3 scripts/check-editor.py
 ```
 
 The runner uses agent-browser 0.38.2, signs in with the public admin/password blueprint account when auto-login is unavailable, and closes only its own browser session. CI supplies --server-log to wait for Playground's explicit Ready message: HTTP may respond before blueprint seeding and login finish. Theme-supplied patterns are read-only in the library; see [header replacement](theme-reference.md#header-patterns).
+
+On /templates/, run tests/template-showcase.browser.js to check every submenu destination, layout and post query. Run tests/sidebar-layout.browser.js on each sidebar example at desktop and mobile widths.
 
 Repeat relevant checks at mobile widths and with keyboard/reduced-motion settings. See [theme reference](theme-reference.md) for scenario-specific scripts.
 

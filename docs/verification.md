@@ -34,6 +34,17 @@ The PHP-generated block comments now use canonical delimiters. Structural checks
 
 Theme pattern-library entries remain read-only by design. Apply a header by editing or replacing its template part, as described in the theme reference.
 
+## Local template showcase
+
+- All 28 structural, packaging and runner tests passed.
+- The reusable blueprint created the showcase on WordPress 7.1.2 / PHP 8.3.33; native Page/Post template assignments and route-scoped Index/Archive overrides were verified.
+- Re-running the showcase seeder retained one Templates submenu with eight comparison links.
+- In the running preview, all eight menu destinations returned HTTP 200 and showed the expected default/sidebar layouts, populated queries and post details.
+- All four sidebar examples passed layout checks at 1440px and 390px. The desktop submenu opens on hover; the mobile menu exposes all eight destinations and its Page with Sidebar link navigates correctly.
+- Index and Archive pagination advance to distinct second-page posts while retaining their sidebar layouts. The archive pagination regression failed before expanding pattern references and passed after the correction.
+- The actual editor parser validated all eight new page/post/menu/template sources without invalid or missing blocks.
+- The fixture was applied without resetting the existing preview. Temporary seeding instrumentation was removed; theme runtime files are unchanged.
+
 ## Setup scope limits
 
 Browser checks and hosted-site deployment were not run. Theme runtime files and appearance are unchanged.

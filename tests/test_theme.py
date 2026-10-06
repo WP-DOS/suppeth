@@ -342,6 +342,27 @@ class ThemeTests(unittest.TestCase):
         self.assertIn("wp:site-tagline", footer)
         self.assertNotIn("The Quiet Edit", footer)
 
+    def test_template_showcases_are_preview_only_and_reusable(self):
+        fixture = (ROOT / "tests/fixtures/template-showcase.php").read_text()
+        for slug in ["templates", "template-page", "template-page-sidebar", "template-post-sidebar", "template-index-sidebar"]:
+            self.assertIn("'" + slug + "'", fixture)
+        for slug in ["page-template-index-sidebar", "category-template-showcase"]:
+            self.assertIn("'" + slug + "'", fixture)
+        self.assertIn("'_wp_page_template', 'page-sidebar'", fixture)
+        self.assertIn("'_wp_page_template', 'single-sidebar'", fixture)
+        self.assertIn("get_template_directory() . '/templates/index-sidebar.html'", fixture)
+        self.assertIn("get_template_directory() . '/templates/archive-sidebar.html'", fixture)
+        self.assertIn("serialize_blocks(resolve_pattern_blocks(parse_blocks($source)))", fixture)
+        self.assertIn("'core/navigation-submenu'", fixture)
+        self.assertIn("'label' => 'Templates'", fixture)
+        self.assertIn("array_filter(parse_blocks($menu->post_content)", fixture)
+        self.assertIn("'127.0.0.1', 'localhost'", fixture)
+        self.assertNotIn("wp_delete_post", fixture)
+        blueprint = json.loads((ROOT / "tests/blueprint.json").read_text())
+        scripts = [step.get("code", "") for step in blueprint["steps"] if step["step"] == "runPHP"]
+        self.assertLess(next(i for i, code in enumerate(scripts) if "suppeth-seed.php" in code),
+                        next(i for i, code in enumerate(scripts) if "suppeth-template-showcase.php" in code))
+
     def test_shared_form_layout_and_disabled_states(self):
         css = (THEME / "style.css").read_text()
         self.assertIn('.wp-block-post-comments-form :where(input:not([type="submit"]):not([type="checkbox"]), textarea)', css)
