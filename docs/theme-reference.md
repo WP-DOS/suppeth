@@ -23,7 +23,9 @@ Edit the shared **Sidebar** template part in the Site Editor to change its categ
 
 ## Header patterns
 
-Four optional patterns are available under **Headers** in the Site Editor: **Header with search**, **Centered header**, **Two-row header with search**, and **Sticky header**. This theme-supplied library is read-only, not an active-header selector. Open **Patterns → Header** (singular), edit the Header template part, then replace its blocks with a pattern from the inserter. Alternatively, select the Header template part in a template and use its replacement patterns. The default header stays unchanged until you save a replacement.
+Four optional template parts are available under **Patterns → Header** in the Site Editor: **Header with search**, **Centered header**, **Two-row header with search**, and **Sticky header**. Select the Header template part in a template and replace it with one of these parts, then save the template. Each alternative is a shared, editable part; edits apply wherever that part is used. The default Header stays unchanged.
+
+The same designs remain available as patterns under **Headers**. This theme-supplied pattern library is read-only; insert a pattern into a part to customize its blocks without switching the shared part.
 
 Each pattern uses native Site Logo, Site Title, and Navigation blocks. Set a logo in the Site Logo block and choose your menu in Navigation; patterns contain no fixed links or menu IDs. The search variants use the native Search block. All blocks remain editable. Theme version changes invalidate WordPress's cached pattern list and the theme stylesheet. Version 0.1.6 fixes PHP-generated block delimiters so search headers and footer patterns parse correctly in the editor.
 
@@ -32,7 +34,7 @@ The sticky variant keeps the entire Header template part visible while scrolling
 
 ## Footer patterns
 
-Four optional patterns are available under **Footers** in the Site Editor: **Compact footer**, **Centered footer**, **Footer with columns**, and **Footer with search**. Edit the Footer template part, then choose a replacement pattern or replace its blocks using the inserter. The default footer stays unchanged until you choose one; saved Site Editor customizations still take precedence over theme files.
+Four optional template parts are available under **Patterns → Footer** in the Site Editor: **Compact footer**, **Centered footer**, **Footer with columns**, and **Footer with search**. Select the Footer template part in a template and replace it with one of these parts, then save the template. Each alternative is a shared, editable part. The same designs remain available as patterns under **Footers** for insertion into an existing part. The default Footer stays unchanged; saved Site Editor customizations still take precedence over theme files.
 
 Each uses native Site Title and Navigation blocks, with no fixed links or menu IDs. Choose your footer menu in Navigation; its links stay visible and wrap on small screens rather than opening an overlay. The centered variant includes an optional Site Logo and the site description. The columns variant adds the site description and three recent posts, stacking vertically on mobile. The search variant includes the site description and a labelled native Search block. All blocks, headings, and the WordPress credit remain editable.
 

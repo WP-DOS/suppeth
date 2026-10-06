@@ -20,6 +20,24 @@ foreach ( glob( get_template_directory() . '/patterns/*.php' ) as $file ) {
 	suppeth_test_assert( serialize_blocks( parse_blocks( $pattern['content'] ) ) === $pattern['content'], 'Pattern delimiter or attributes changed during parsing: ' . $slug );
 }
 
+// Alternative headers and footers must be discoverable as native template parts.
+$parts = get_block_templates( array(), 'wp_template_part' );
+foreach ( array( 'header', 'footer' ) as $area ) {
+	foreach ( glob( get_template_directory() . '/patterns/' . $area . '-*.php' ) as $file ) {
+		$name = basename( $file, '.php' );
+		$matches = array_filter( $parts, static function ( $part ) use ( $name ) {
+			return 'suppeth//' . $name === $part->id;
+		} );
+		suppeth_test_assert( 1 === count( $matches ), 'Missing template part: ' . $name );
+		$part = reset( $matches );
+		suppeth_test_assert( $area === $part->area, 'Wrong template part area: ' . $name );
+		suppeth_test_assert( '' !== $part->title, 'Missing template part title: ' . $name );
+		$html = do_blocks( $part->content );
+		suppeth_test_assert( false !== strpos( $html, 'wp-block-site-title' ), 'Template part failed to render: ' . $name );
+		suppeth_test_assert( false === strpos( $html, '<!-- wp:pattern' ), 'Unresolved template part pattern: ' . $name );
+	}
+}
+
 // Real core serialization must survive translated quotes and comment delimiters.
 $translate = static function ( $translation, $text, $domain ) {
 	return 'suppeth' === $domain ? 'Translated " < > -- & ' . $text : $translation;

@@ -132,7 +132,22 @@ class ThemeTests(unittest.TestCase):
                     self.assertTrue((THEME / src.removeprefix("file:./")).is_file())
         self.assertEqual(config["styles"]["typography"]["fontFamily"], "var:preset|font-family|dm-sans")
         self.assertEqual(config["styles"]["elements"]["heading"]["typography"]["fontFamily"], "var:preset|font-family|manrope")
-        self.assertEqual({p["name"] for p in config["templateParts"]}, {"header", "footer", "sidebar"})
+        self.assertEqual({p["name"] for p in config["templateParts"]},
+                         {p.stem for p in THEME.glob("parts/*.html")})
+
+    def test_header_footer_variants_are_template_parts(self):
+        config = json.loads((THEME / "theme.json").read_text())
+        parts = {part["name"]: part for part in config["templateParts"]}
+        for area in ["header", "footer"]:
+            for pattern in THEME.glob("patterns/" + area + "-*.php"):
+                with self.subTest(part=pattern.stem):
+                    self.assertIn(pattern.stem, parts)
+                    self.assertEqual(parts[pattern.stem]["area"], area)
+                    self.assertTrue(parts[pattern.stem]["title"])
+                    path = THEME / "parts" / (pattern.stem + ".html")
+                    self.assertEqual(path.read_text().strip(),
+                                     '<!-- wp:pattern {"slug":"suppeth/' + pattern.stem + '"} /-->')
+                    self.assertEqual(read_markup(path), read_markup(pattern) + "\n")
 
     def test_sidebar_template_registration_and_layout(self):
         config = json.loads((THEME / "theme.json").read_text())
