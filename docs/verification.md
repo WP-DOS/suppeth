@@ -19,6 +19,31 @@ Current commands and tooling are documented in [development](development.md). Hi
 - Default contrast on Paper: Ink 11.25:1, secondary ink 5.69:1, links 6.54:1, control borders 4.23:1. These ratios cover the default palette, not arbitrary user-selected combinations.
 - Layout spacing and native controls remain unchanged. Existing sans-serif presets remain available; the new defaults do not reset saved Global Styles.
 
+## Heading scale and independent style presets
+
+- The Typography fixture reproduced the lower-heading problem: H5 and H6 fell back to browser sizes of about 15 and 12 px, below the 18 px body text.
+- All six levels now have explicit sizes. Browser checks passed at 1280 px and 390 px, with a descending scale, readable lower headings, and no horizontal overflow.
+- All four typography/palette combinations passed browser checks at 1280 px and 390 px using WordPress-generated stylesheets: expected body/heading/site-title fonts, palette background, descending heading sizes, and no horizontal overflow.
+- The Site Editor displayed Serif/Sans typesets and Paper/Neutral palettes. Selecting Sans followed by Neutral preserved DM Sans body text, Manrope headings, and the neutral palette in the edited state. These inspection changes were not saved.
+- All five Node tests passed, including contrast checks for both palettes, independent preset composition, and packaged variation files. WordPress 7.1.2 runtime checks verified native preset discovery; theme schema lint, all 20 editor patterns, and packaging also passed.
+
+## Editable appearance defaults
+
+- The distributed stylesheet dropped from 739 to 249 lines. Editorial class-specific decoration and orphaned homepage styling were removed; ordinary layout and appearance use native block attributes and theme.json settings. Remaining stylesheet rules cover layout/accessibility guards and the image-description enhancement.
+- Details marker/wrapper styles and comment-form internals now use block-scoped css in theme.json. Details typography inherits native block settings; consecutive blocks no longer force shared corners or borders. The local contact form loads its own fixture-only stylesheet.
+- CSS/PHP/theme lint, six Node checks, WordPress runtime checks (including native sticky-position rendering), editor round-trips for all 20 patterns, repeat seeding, and packaging passed.
+- Desktop/mobile Details interaction checks passed. A reduced-motion regression exposed WordPress dropping the nested media query from block-scoped CSS; the icon now uses a duration variable controlled by a stylesheet-level accessibility media query. The corrected normal/reduced-motion checks passed at desktop width, and reduced-motion checks also passed at 390 px. The Contact page loaded its fixture-only stylesheet successfully. Mobile article navigation, image-description layouts, homepage listings, and all ten template destinations also passed.
+- Browser tests using WordPress-generated user styles verified that Details accepted a solid 4 px blue border, 32 px padding, system-sans typography, and weight 700 at 1280 px and 390 px. Image corners accepted a zero-radius override. These temporary styles were not saved to the preview database.
+
+## Native blank theme and separate image plugin
+
+- The default now uses system typography and a neutral palette; Serif/Sans and Paper/Neutral remain independent optional presets. Theme appearance uses native controls. style.css retains four usability guards (long-content wrapping, preformatted scrolling, anchor spacing, and template-part margins); theme.json has no custom css fields, and functions.php loads translations and the shared frontend/editor stylesheet only.
+- Custom Details behavior and image-description assets/hooks were removed. Native Details and gallery-caption checks passed without any image plugin active. Author details now use separate native Avatar, Author Name, and Biography blocks, with editable avatar corners. Pagination uses native previous/next blocks; the unsupported sticky-header part was retired.
+- CSS/PHP/theme lint, six Node checks, WordPress 7.1.2 runtime checks, and editor round-trips for 19 patterns / seven replacement designs passed. Packaging excludes plugins and fixtures.
+- The initial metadata-only stylesheet exposed native overflow on unbroken content. After clarification, a minimal explicit stylesheet restores usability guards without decorative overrides. The simple showcase uses descriptive labels; legacy proof fixtures retain stress cases for regression checks.
+- Image Descriptions was extracted to a separate local Git repository, with its own package allowlist, WordPress sandbox, CI workflow, and tests. Suppeth does not import, install, activate, or reference it as a dependency; site adoption and GitHub publication remain separate steps.
+- The plugin passed standalone packaging/runtime checks on WordPress 7.1.2 with Twenty Twenty-Five. Desktop/mobile/reduced-motion browser checks passed, and a wide gallery exercised two eligible controls without relocating native captions. Its Node development tools have upstream npm audit advisories and remain outside the runtime ZIP.
+
 ## Runtime compatibility
 
 scripts/check-runtime.py produced explicit successful PHP receipts using Playground CLI 3.1.57:

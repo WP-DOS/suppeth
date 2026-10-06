@@ -1,5 +1,5 @@
 /**
- * Run on /journal/, /journal/page/2/, a category archive, or a populated search.
+ * Run on the homepage, /page/2/, a category archive, or a populated search.
  *
  * @package Suppeth
  * @since Suppeth 0.1.6
@@ -18,8 +18,6 @@
         const title = entry.querySelector('.wp-block-post-title');
         const more = entry.querySelector('.wp-block-post-excerpt__more-link');
         if (!more || more.href !== title.querySelector('a').href) failures.push('Missing or incorrect Continue reading link');
-        if (getComputedStyle(title).fontWeight !== '400') failures.push('Title too heavy');
-        if (getComputedStyle(title.querySelector('a')).textDecorationLine !== 'none') failures.push('Title is underlined');
         const image = entry.querySelector('.wp-block-post-featured-image img');
         if (image) {
             image.loading = 'eager';
@@ -31,9 +29,7 @@
     }
     const pages = [...document.querySelectorAll('.wp-block-query-pagination .page-numbers')];
     if (pages.length && !pages.some(page => page.getAttribute('aria-current') === 'page')) failures.push('Missing current page');
-    if (pages.some(page => page.getBoundingClientRect().width < 44 || page.getBoundingClientRect().height < 44)) failures.push('Pagination controls too small');
-    if (!getComputedStyle(document.body).fontFamily.includes('DM Sans')) failures.push('Wrong body font');
-    if (!document.fonts.check('400 18px "DM Sans"') || !document.fonts.check('400 28px Manrope')) failures.push('Local fonts did not load');
+    // Typography and pagination appearance are editable in Global Styles.
     if (performance.getEntriesByType('resource').some(resource => /\.(woff2?|ttf)(\?|$)/.test(resource.name) && new URL(resource.name).origin !== location.origin)) failures.push('Remote font request');
     if (document.documentElement.scrollWidth > innerWidth) failures.push('Horizontal overflow');
     const report = { path: location.pathname, viewport: innerWidth, entries: entries.length, featuredImages: entries.filter(entry => entry.querySelector('.wp-block-post-featured-image')).length, failures };

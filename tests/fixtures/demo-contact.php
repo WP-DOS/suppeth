@@ -10,6 +10,7 @@ if (!defined('ABSPATH') || !in_array(wp_parse_url(home_url(), PHP_URL_HOST), arr
     return;
 }
 add_shortcode('suppeth_demo_contact', function () {
+    wp_enqueue_style('suppeth-demo-contact', plugins_url('demo-contact.css', __FILE__), array(), '1');
     wp_enqueue_script('suppeth-demo-contact', plugins_url('demo-contact.js', __FILE__), array(), '1', true);
     $id = wp_unique_id('suppeth-demo-contact-');
     ob_start();

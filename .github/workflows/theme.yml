@@ -36,8 +36,7 @@ jobs:
         run: |
           find patterns scripts tests/fixtures -name '*.php' -print0 | xargs -0 -n1 php -l
           php -l functions.php
-          node --check assets/image-descriptions.js
-          node --check assets/details.js
+          find tests -name '*.browser.js' -print0 | xargs -0 -n1 node --check
       - name: Start the shared WordPress preview
         run: npm run env:setup
       - name: Install test browser
@@ -46,6 +45,13 @@ jobs:
         run: |
           npm test
           npm run env:check
+      - name: Desktop and mobile usability guards
+        run: |
+          trap 'npx --yes agent-browser@0.38.2 --session suppeth-ci-guards close' EXIT
+          npx --yes agent-browser@0.38.2 --session suppeth-ci-guards open http://localhost:8899/typography/
+          npx --yes agent-browser@0.38.2 --session suppeth-ci-guards eval --stdin < tests/usability-baseline.browser.js
+          npx --yes agent-browser@0.38.2 --session suppeth-ci-guards set viewport 390 844
+          npx --yes agent-browser@0.38.2 --session suppeth-ci-guards eval --stdin < tests/usability-baseline.browser.js
       - name: Package theme
         run: npm run package
       - uses: actions/upload-artifact@v4

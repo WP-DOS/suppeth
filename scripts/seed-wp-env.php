@@ -23,6 +23,8 @@ foreach ( $manifest as $fixture ) {
 	$destination = $fixture['destination'];
 	if ( 'mu-plugins/suppeth-demo-contact.php' === $destination ) {
 		$destination = WPMU_PLUGIN_DIR . '/suppeth-demo-contact.php';
+	} elseif ( 'mu-plugins/demo-contact.css' === $destination ) {
+		$destination = WPMU_PLUGIN_DIR . '/demo-contact.css';
 	} elseif ( 'mu-plugins/demo-contact.js' === $destination ) {
 		$destination = WPMU_PLUGIN_DIR . '/demo-contact.js';
 	} elseif ( ! preg_match( '#^/tmp/suppeth-[a-z-]+\.(php|html|png|webp)$#', $destination ) ) {

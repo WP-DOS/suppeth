@@ -26,7 +26,7 @@ test( 'ZIP is reproducible and contains runtime files only', () => {
 		assert.equal( crossTimezone.status, 0, crossTimezone.stderr );
 		assert.deepEqual( first, readFileSync( join( directory, 'timezone.zip' ) ) );
 		const entries = unzipSync( first );
-		for ( const name of [ 'style.css', 'theme.json', 'functions.php', 'LICENSE', 'templates/404.html', 'parts/header.html' ] ) {
+		for ( const name of [ 'style.css', 'theme.json', 'functions.php', 'LICENSE', 'templates/404.html', 'parts/header.html', 'styles/typography/sans.json', 'styles/colors/neutral.json' ] ) {
 			assert.ok( entries[ `suppeth/${ name }` ], name );
 		}
 		for ( const name of Object.keys( entries ) ) {
@@ -43,14 +43,18 @@ test( 'ZIP is reproducible and contains runtime files only', () => {
 
 test( 'default text and controls have accessible contrast; fonts stay local', () => {
 	const theme = JSON.parse( readFileSync( new URL( 'theme.json', root ), 'utf8' ) );
-	const palette = Object.fromEntries( theme.settings.color.palette.map( ( color ) => [ color.slug, color.color ] ) );
+	const palettes = [ theme, ...[ 'paper', 'neutral' ].map( ( slug ) =>
+		JSON.parse( readFileSync( new URL( `styles/colors/${ slug }.json`, root ), 'utf8' ) ) ) ]
+		.map( ( variation ) => Object.fromEntries( variation.settings.color.palette.map( ( color ) => [ color.slug, color.color ] ) ) );
 	const luminance = ( color ) => color.match( /[a-f\d]{2}/gi )
 		.map( ( value ) => parseInt( value, 16 ) / 255 )
 		.map( ( value ) => value <= 0.04045 ? value / 12.92 : ( ( value + 0.055 ) / 1.055 ) ** 2.4 )
 		.reduce( ( sum, value, index ) => sum + value * [ 0.2126, 0.7152, 0.0722 ][ index ], 0 );
-	for ( const slug of [ 'contrast', 'muted', 'accent', 'control-border' ] ) {
-		const levels = [ luminance( palette[ slug ] ), luminance( palette.base ) ].sort( ( a, b ) => b - a );
-		assert.ok( ( levels[ 0 ] + 0.05 ) / ( levels[ 1 ] + 0.05 ) >= ( slug === 'control-border' ? 3 : 4.5 ), slug );
+	for ( const palette of palettes ) {
+		for ( const slug of [ 'contrast', 'muted', 'accent', 'control-border' ] ) {
+			const levels = [ luminance( palette[ slug ] ), luminance( palette.base ) ].sort( ( a, b ) => b - a );
+			assert.ok( ( levels[ 0 ] + 0.05 ) / ( levels[ 1 ] + 0.05 ) >= ( slug === 'control-border' ? 3 : 4.5 ), slug );
+		}
 	}
 	for ( const family of theme.settings.typography.fontFamilies ) {
 		for ( const face of family.fontFace ?? [] ) {
@@ -60,6 +64,43 @@ test( 'default text and controls have accessible contrast; fonts stay local', ()
 			}
 		}
 	}
+} );
+
+test( 'typography and color variations compose independently with explicit heading sizes', () => {
+	const theme = JSON.parse( readFileSync( new URL( 'theme.json', root ), 'utf8' ) );
+	for ( let level = 1; level <= 6; level++ ) {
+		assert.ok( theme.styles.elements[ `h${ level }` ].typography.fontSize, `H${ level }` );
+	}
+	for ( const slug of [ 'serif', 'sans' ] ) {
+		const variation = JSON.parse( readFileSync( new URL( `styles/typography/${ slug }.json`, root ), 'utf8' ) );
+		assert.ok( variation.styles.typography.fontFamily );
+		assert.ok( variation.styles.elements.heading.typography.fontFamily );
+		assert.ok( variation.styles.blocks[ 'core/site-title' ].typography.fontFamily );
+		assert.equal( variation.settings?.color, undefined );
+		assert.equal( variation.styles.color, undefined );
+	}
+	for ( const slug of [ 'paper', 'neutral' ] ) {
+		const variation = JSON.parse( readFileSync( new URL( `styles/colors/${ slug }.json`, root ), 'utf8' ) );
+		assert.deepEqual( variation.settings.color.palette.map( ( color ) => color.slug ),
+			theme.settings.color.palette.map( ( color ) => color.slug ) );
+		assert.equal( variation.styles?.typography, undefined );
+		assert.equal( variation.settings.typography, undefined );
+	}
+} );
+
+test( 'the blank theme keeps only usability guards, not plugin behavior or hidden block CSS', () => {
+	const css = readFileSync( new URL( 'style.css', root ), 'utf8' );
+	const rules = css.replace( /\/\*[\s\S]*?\*\//g, '' );
+	assert.match( rules, /overflow-wrap:\s*anywhere/ );
+	assert.match( rules, /overflow-x:\s*auto/ );
+	assert.match( rules, /scroll-margin-block-start:/ );
+	assert.match( rules, /margin-block-start:\s*0/ );
+	assert.doesNotMatch( rules, /!important|@view-transition|animation|transition|font-|text-decoration|background|border|color\s*:/ );
+	const theme = JSON.parse( readFileSync( new URL( 'theme.json', root ), 'utf8' ) );
+	assert.ok( ! JSON.stringify( theme.styles ).includes( '"css"' ) );
+	assert.equal( theme.styles.typography.fontFamily, 'var:preset|font-family|system' );
+	assert.doesNotMatch( readFileSync( new URL( 'functions.php', root ), 'utf8' ), /render_block_|image-description|details\.js/ );
+	assert.ok( readFileSync( new URL( 'tests/fixtures/demo-contact.php', root ), 'utf8' ).includes( 'demo-contact.css' ) );
 } );
 
 test( 'editor checks reject hosted sites before opening a browser', () => {

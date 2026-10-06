@@ -8,9 +8,11 @@ Plain but usable means complete core templates, accessible defaults, restrained 
 
 ## Current state and direction
 
-The current theme has an editorial design, local fonts, optional headers, footers and sidebars, plus image-description and Details enhancements. This setup preserves that behavior. Neutralizing those defaults is future, separately scoped work.
+Suppeth uses neutral native defaults and editable templates, with optional color/font variations and header, footer, and sidebar patterns. Ordinary customization must work through native block controls and Global Styles. Unsupported custom behavior and block-scoped CSS strings are outside the theme's scope: placing CSS in theme.json does not make it a native FSE control. A small, documented stylesheet may supply non-decorative usability guards where core needs help, such as wrapping long text, scrolling preformatted lines, anchor offsets, and template-part spacing. These guards must not override editable colors, typography, borders, or other design choices.
 
-The development fixtures contain synthetic content for exercising the theme. Its fictional editorial site is a test harness, not demo content shipped to users or a copy of wp-dos.com.
+Image Descriptions is a separately owned WordPress plugin. Suppeth neither imports nor installs it. Site adoption and any plugin submodule belong to the site repository. Details blocks retain WordPress's native presentation and behavior.
+
+The development fixtures contain synthetic content for exercising the theme. The minimal three-post showcase is a test harness, not demo content shipped to users or a copy of wp-dos.com.
 
 ## Ownership
 
@@ -21,7 +23,6 @@ wp-dos.com is an education-first WordPress publication. Suppeth may power it wit
 ## Deferred decisions
 
 - Storage, publication and export of article sources and public portable patterns.
-- Neutral-design implementation and individual defaults.
 - Broader compatibility matrix beyond the declared metadata and verified checks.
 
-See the site's [project boundaries](https://github.com/WP-DOS/site/blob/develop/docs/project.md) for future plugin ownership.
+See the site's [project boundaries](https://github.com/WP-DOS/site/blob/develop/docs/project.md) for site-owned integration and deployment decisions.

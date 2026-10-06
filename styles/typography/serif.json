@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schemas.wp.org/wp/7.1/theme.json",
+  "version": 3,
+  "title": "Serif",
+  "slug": "serif",
+  "styles": {
+    "typography": {
+      "fontFamily": "var:preset|font-family|source-serif-4",
+      "fontSize": "var:preset|font-size|medium",
+      "lineHeight": "1.7"
+    },
+    "elements": {
+      "heading": {
+        "typography": {
+          "fontFamily": "var:preset|font-family|cormorant-garamond",
+          "fontWeight": "500",
+          "lineHeight": "1.2"
+        }
+      }
+    },
+    "blocks": {
+      "core/site-title": {
+        "typography": {
+          "fontFamily": "var:preset|font-family|cormorant-garamond",
+          "fontWeight": "600"
+        }
+      }
+    }
+  }
+}

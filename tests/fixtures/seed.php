@@ -29,21 +29,6 @@ foreach (glob(get_stylesheet_directory() . '/templates/*.html') as $path) {
     $visit(parse_blocks(file_get_contents($path)));
 }
 
-// Exercise the actual WordPress renderer, including escaping and linked images.
-$raw_image = '<figure><a href="/typography-test/"><img src="/sample.png" alt="A &amp; B &lt;shape&gt; &quot;quoted&quot; > example"/></a><figcaption>Caption</figcaption></figure>';
-$described = suppeth_render_image_description($raw_image);
-if (1 !== substr_count($described, '<details') || false === strpos($described, '</a><details') || false !== strpos($described, '<shape>')) {
-    throw new Exception('ALT disclosure rendering or escaping failed.');
-}
-if ($described !== suppeth_render_image_description($described)) {
-    throw new Exception('ALT disclosure rendered twice.');
-}
-foreach (array('<figure><img src="/sample.png" alt=""/></figure>', '<figure><img src="/sample.png"/></figure>') as $decorative) {
-    if ($decorative !== suppeth_render_image_description($decorative)) {
-        throw new Exception('Decorative image acquired an ALT badge.');
-    }
-}
-
 $upsert = function ($type, $slug, $title, $content, $extra = array()) {
     $existing = get_page_by_path($slug, OBJECT, $type);
     $data = array_merge(array(
@@ -54,7 +39,7 @@ $upsert = function ($type, $slug, $title, $content, $extra = array()) {
     if ($existing) {
         $data['ID'] = $existing->ID;
     }
-    $id = wp_insert_post($data, true);
+    $id = wp_insert_post(wp_slash($data), true);
     if (is_wp_error($id)) {
         throw new Exception($id->get_error_message());
     }
@@ -102,23 +87,14 @@ foreach (array(array('hello-world', 'post'), array('sample-page', 'page')) as $d
         wp_delete_post($post->ID, true);
     }
 }
-update_option('blogname', 'Suppeth local preview');
-update_option('posts_per_page', 2);
-$category = term_exists('getting-started', 'category');
-if (!$category) {
-    $category = wp_insert_term('Getting started', 'category', array('slug' => 'getting-started'));
-}
-$content = '<!-- wp:paragraph --><p>Local preview content for testing Suppeth. Nothing on this site is published to wp-dos.com.</p><!-- /wp:paragraph -->'
-    . '<!-- wp:heading --><h2 class="wp-block-heading">A readable starting point</h2><!-- /wp:heading -->'
-    . '<!-- wp:paragraph --><p>Check comfortable line lengths, headings, links, and spacing between sections.</p><!-- /wp:paragraph -->';
 $author = get_user_by('login', 'suppeth-preview-author');
 if (!$author) {
     $author_id = wp_insert_user(array(
         'user_login' => 'suppeth-preview-author',
         'user_pass' => wp_generate_password(32),
-        'display_name' => 'Alex Morgan',
+        'display_name' => 'Suppeth',
         'role' => 'author',
-        'description' => 'Writes practical WordPress guides with a focus on clear explanations and thoughtful design.',
+        'description' => 'A WordPress block theme with editable layouts and native blocks.',
     ));
     if (is_wp_error($author_id)) {
         throw new Exception($author_id->get_error_message());
@@ -127,43 +103,4 @@ if (!$author) {
     $author_id = $author->ID;
 }
 update_option('thread_comments', 1);
-for ($i = 1; $i <= 3; $i++) {
-    $id = $upsert('post', 'sample-guide-' . $i, $i === 1 ? 'A clean foundation for clear WordPress guides, even with a longer title' : 'Sample guide ' . $i, $content, array('comment_status' => 'open', 'post_author' => $author_id));
-    if (!is_wp_error($category)) {
-        wp_set_post_categories($id, array((int) $category['term_id']));
-    }
-    wp_set_post_terms($id, array('WordPress', 'Design'), 'post_tag');
-    if ($i === 1) {
-        $comments = array(
-            array('reader', 'Jamie Lee', 'The quieter typography makes these guides much easier to read. Could you share how you chose the line length?', ''),
-            array('reply', 'Alex Morgan', 'I start with a comfortable reading width, then check it on a phone. Longer examples can still use the wide layout.', 'reader'),
-            array('long', 'Sam Rivera', 'I tried this with a longer article, a few code samples, and a table. The extra breathing room helps each section feel distinct without needing a heavy border around everything.', ''),
-        );
-        $comment_ids = array();
-        foreach ($comments as $sample) {
-            $email = 'suppeth-' . $sample[0] . '@example.test';
-            $existing = get_comments(array('post_id' => $id, 'author_email' => $email, 'number' => 1));
-            $data = array(
-                'comment_post_ID' => $id, 'comment_author' => $sample[1],
-                'comment_author_email' => $email, 'comment_content' => $sample[2],
-                'comment_approved' => 1, 'comment_parent' => $sample[3] ? $comment_ids[$sample[3]] : 0,
-                'user_id' => $sample[0] === 'reply' ? $author_id : 0,
-            );
-            if ($existing) {
-                $data['comment_ID'] = $existing[0]->comment_ID;
-                wp_update_comment($data);
-                $comment_ids[$sample[0]] = $data['comment_ID'];
-            } else {
-                $comment_ids[$sample[0]] = wp_insert_comment($data);
-            }
-        }
-    }
-}
-$upsert('page', 'about-this-test-site', 'About this test site', $content);
-$upsert('page', 'block-style-test', 'Block style regression', $replace('/tmp/suppeth-blocks.html'));
-$upsert('page', 'typography-test', 'Typography regression', $replace('/tmp/suppeth-typography.html'));
-// Proof pages have their own slugs and never replace demo or legacy regression pages.
-$upsert('page', 'elements-proof', 'Elements proof', $replace('/tmp/suppeth-elements-proof.html'), array('comment_status' => 'closed'));
-$upsert('page', 'typography-proof', 'Typography proof', $replace('/tmp/suppeth-typography-proof.html'), array('comment_status' => 'closed'));
-echo 'Suppeth local fixtures ready: blocks, typography, independent proof pages, sample posts, and local media.';
 require '/tmp/suppeth-site.php';
