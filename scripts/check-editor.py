@@ -12,7 +12,7 @@ from urllib.request import build_opener, HTTPCookieProcessor
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def check(url):
+def check(url, server_log=None):
     parsed = urlparse(url)
     if parsed.scheme != "http" or parsed.hostname not in {"127.0.0.1", "localhost"}:
         raise ValueError("Editor regression checks require a disposable local sandbox.")
@@ -20,12 +20,17 @@ def check(url):
     opener = build_opener(HTTPCookieProcessor(CookieJar()))
     deadline = time.monotonic() + 90
     while True:
-        try:
-            with opener.open(url, timeout=2) as response:
-                if response.status == 200:
-                    break
-        except (URLError, TimeoutError):
-            pass
+        # HTTP becomes available before Playground finishes applying the blueprint.
+        blueprint_ready = server_log is None or (
+            server_log.is_file() and "Ready! WordPress is running on" in server_log.read_text(errors="replace")
+        )
+        if blueprint_ready:
+            try:
+                with opener.open(url, timeout=2) as response:
+                    if response.status == 200:
+                        break
+            except (URLError, TimeoutError):
+                pass
         if time.monotonic() >= deadline:
             raise RuntimeError("Local Playground did not become ready within 90 seconds.")
         time.sleep(0.5)
@@ -43,6 +48,9 @@ def check(url):
         subprocess.run(command + ["eval", "--stdin"],
                        input=(ROOT / "tests/pattern-validation.browser.js").read_text(),
                        text=True, check=True)
+    except subprocess.CalledProcessError:
+        subprocess.run(command + ["eval", "JSON.stringify({path:location.pathname,title:document.title,loginError:document.querySelector('#login_error')?.textContent})"], check=False)
+        raise
     finally:
         subprocess.run(command + ["close"], check=False)
 
@@ -50,4 +58,6 @@ def check(url):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--url", default="http://127.0.0.1:9400")
-    check(parser.parse_args().url)
+    parser.add_argument("--server-log", type=Path, help="Wait for Playground to finish its blueprint before probing HTTP")
+    args = parser.parse_args()
+    check(args.url, args.server_log)

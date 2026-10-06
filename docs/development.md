@@ -52,7 +52,7 @@ For the editor-parser regression suite, with the disposable preview running:
 python3 scripts/check-editor.py
 ```
 
-The runner uses agent-browser 0.38.2, signs in with the public admin/password blueprint account when auto-login is unavailable, and closes only its own browser session. Theme-supplied patterns are read-only in the library; see [header replacement](theme-reference.md#header-patterns).
+The runner uses agent-browser 0.38.2, signs in with the public admin/password blueprint account when auto-login is unavailable, and closes only its own browser session. CI supplies --server-log to wait for Playground's explicit Ready message: HTTP may respond before blueprint seeding and login finish. Theme-supplied patterns are read-only in the library; see [header replacement](theme-reference.md#header-patterns).
 
 Repeat relevant checks at mobile widths and with keyboard/reduced-motion settings. See [theme reference](theme-reference.md) for scenario-specific scripts.
 

@@ -2,6 +2,7 @@
 import importlib.util
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+import tempfile
 import threading
 from types import SimpleNamespace
 import unittest
@@ -51,6 +52,18 @@ class EditorRunnerTests(unittest.TestCase):
             server.shutdown()
             server.server_close()
             thread.join(timeout=2)
+
+    def test_http_ready_is_not_enough_before_blueprint_completion(self):
+        with tempfile.TemporaryDirectory() as directory:
+            log = Path(directory) / "playground.log"
+            log.write_text("Installing WordPress and applying blueprint...")
+            clock = SimpleNamespace(monotonic=Mock(side_effect=[0, 91]), sleep=Mock())
+            with patch.object(runner, "time", clock), patch.object(runner.subprocess, "run") as commands:
+                with patch.object(runner, "build_opener") as opener:
+                    with self.assertRaisesRegex(RuntimeError, "did not become ready"):
+                        runner.check("http://127.0.0.1:9400", log)
+                    opener.return_value.open.assert_not_called()
+                    commands.assert_not_called()
 
     def test_hosted_sites_are_rejected(self):
         with patch.object(runner.subprocess, "run") as commands:
