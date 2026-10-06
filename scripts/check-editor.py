@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Validate registered patterns through the running WordPress Site Editor."""
+"""Validate registered patterns through the running WordPress Site Editor.
+
+Package: Suppeth
+Since: Suppeth 0.1.6
+"""
 import argparse
 from http.cookiejar import CookieJar
 from pathlib import Path

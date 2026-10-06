@@ -1,5 +1,10 @@
 <?php
-/** Run only inside a disposable local WordPress instance. */
+/**
+ * Run only inside a disposable local WordPress instance.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 require_once '/wordpress/wp-load.php';
 if ( ! in_array( wp_parse_url( home_url(), PHP_URL_HOST ), array( 'localhost', '127.0.0.1' ), true ) ) {
 	throw new RuntimeException( 'Standards tests require a local sandbox.' );
@@ -13,10 +18,12 @@ suppeth_test_assert( version_compare( get_bloginfo( 'version' ), '7.1', '>=' ), 
 suppeth_test_assert( 'suppeth' === get_stylesheet(), 'Suppeth must be active.' );
 $registry = WP_Block_Patterns_Registry::get_instance();
 foreach ( glob( get_template_directory() . '/patterns/*.php' ) as $file ) {
-	$slug = 'suppeth/' . basename( $file, '.php' );
+	$headers = get_file_data( $file, array( 'slug' => 'Slug', 'inserter' => 'Inserter' ) );
+	$slug = $headers['slug'];
 	suppeth_test_assert( $registry->is_registered( $slug ), 'Missing pattern: ' . $slug );
 	$pattern = $registry->get_registered( $slug );
 	suppeth_test_assert( ! empty( parse_blocks( $pattern['content'] ) ), 'Unparseable pattern: ' . $slug );
+	suppeth_test_assert( ( 'no' !== $headers['inserter'] ) === ( false !== ( $pattern['inserter'] ?? true ) ), 'Wrong inserter visibility: ' . $slug );
 	suppeth_test_assert( serialize_blocks( parse_blocks( $pattern['content'] ) ) === $pattern['content'], 'Pattern delimiter or attributes changed during parsing: ' . $slug );
 }
 
@@ -85,7 +92,7 @@ $subdirectory_home = static function ( $url, $path ) {
 add_filter( 'home_url', $subdirectory_home, 10, 2 );
 try {
 	ob_start();
-	include get_template_directory() . '/patterns/not-found.php';
+	include get_template_directory() . '/patterns/hidden-404.php';
 	$markup = ob_get_clean();
 	suppeth_test_assert( false !== strpos( $markup, 'href="http://127.0.0.1/subdirectory/"' ), 'Homepage link must include subdirectory.' );
 } finally {
@@ -95,7 +102,10 @@ try {
 $stylesheet = WP_Theme_JSON_Resolver::get_merged_data()->get_stylesheet();
 suppeth_test_assert( false !== strpos( $stylesheet, '2.5rem clamp(2rem, 4vw, 3rem)' ), 'Directional column gaps must survive core CSS generation.' );
 
-foreach ( array( 'index', 'page', 'single', 'archive', 'search', '404' ) as $name ) {
+foreach ( array( 'index', 'page', 'single', 'archive', 'search', '404', 'index-sidebar', 'page-sidebar', 'single-sidebar', 'archive-sidebar' ) as $name ) {
+	$slug = 'suppeth/hidden-' . $name;
+	suppeth_test_assert( $registry->is_registered( $slug ), 'Missing full-template pattern: ' . $slug );
+	suppeth_test_assert( false === $registry->get_registered( $slug )['inserter'], 'Template patterns must be hidden: ' . $slug );
 	$template = get_block_template( 'suppeth//' . $name, 'wp_template' );
 	suppeth_test_assert( null !== $template, 'Missing template: ' . $name );
 	$html = do_blocks( $template->content );

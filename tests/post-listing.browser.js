@@ -1,4 +1,9 @@
-// Run on /journal/, /journal/page/2/, a category archive, or a populated search.
+/**
+ * Run on /journal/, /journal/page/2/, a category archive, or a populated search.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 (async () => {
     await document.fonts.ready;
     const entries = [...document.querySelectorAll('.suppeth-post-summary')];

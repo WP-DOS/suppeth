@@ -1,4 +1,9 @@
-// Only mounted in the disposable local preview. No network calls or storage.
+/**
+ * Only mounted in the disposable local preview. No network calls or storage.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 document.querySelectorAll('.suppeth-demo-contact').forEach((form) => {
     form.addEventListener('submit', (event) => {
         event.preventDefault();

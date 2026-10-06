@@ -1,4 +1,9 @@
-// Run on a middle article, then the oldest/newest article, at desktop and mobile widths.
+/**
+ * Run on a middle article, then the oldest/newest article, at desktop and mobile widths.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 (() => {
   const navigation = document.querySelector('nav.suppeth-post-navigation');
   if (!navigation) throw new Error('Missing article navigation landmark');

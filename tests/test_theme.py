@@ -1,4 +1,8 @@
-"""Structural checks; runtime rendering is a separate WordPress smoke test."""
+"""Structural checks; runtime rendering is a separate WordPress smoke test.
+
+Package: Suppeth
+Since: Suppeth 0.1.6
+"""
 import importlib.util
 import json
 import os
@@ -27,12 +31,60 @@ def read_markup(path):
         slug = json.loads(match.group(1))["slug"]
         if not slug.startswith("suppeth/"):
             raise ValueError("Unexpected pattern namespace: " + slug)
-        return read_markup(THEME / "patterns" / (slug.split("/")[1] + ".php"))
+        paths = [path for path in THEME.glob("patterns/*.php")
+                 if re.search(r"^ \* Slug: " + re.escape(slug) + r"$", path.read_text(), re.M)]
+        if len(paths) != 1:
+            raise ValueError("Expected one pattern for slug: " + slug)
+        return read_markup(paths[0])
     source = re.sub(r'<!-- wp:pattern (\{[^\n]+\}) /-->', expand, source)
     # Assert the emitted markup verbatim; normalization can hide parser defects.
     return source
 
 class ThemeTests(unittest.TestCase):
+    def test_template_patterns_are_hidden_and_referenced(self):
+        for template in THEME.glob("templates/*.html"):
+            with self.subTest(template=template.name):
+                name = "hidden-" + template.stem
+                pattern = THEME / "patterns" / (name + ".php")
+                self.assertTrue(pattern.is_file())
+                self.assertEqual(template.read_text(),
+                                 '<!-- wp:pattern {"slug":"suppeth/' + name + '"} /-->\n')
+                self.assertIn("Inserter: no", pattern.read_text())
+                self.assertIn("Slug: suppeth/" + name, pattern.read_text())
+                self.assertNotIn("wp:pattern", pattern.read_text())
+                self.assertEqual(read_markup(template).count("<main "), 1)
+
+    def test_pattern_filenames_match_visibility(self):
+        for pattern in THEME.glob("patterns/*.php"):
+            with self.subTest(pattern=pattern.name):
+                self.assertEqual(pattern.stem.startswith("hidden-"),
+                                 "Inserter: no" in pattern.read_text())
+
+    def test_source_file_headers_and_shared_design_slugs(self):
+        paths = [THEME / "functions.php", *THEME.glob("patterns/*.php"),
+                 *THEME.glob("assets/*.js"), *ROOT.glob("scripts/*.py"),
+                 *ROOT.glob("tests/*.py"), *ROOT.glob("tests/*.js"),
+                 *ROOT.glob("tests/fixtures/*.php"), *ROOT.glob("tests/fixtures/*.js")]
+        for path in paths:
+            with self.subTest(path=path.name):
+                source = path.read_text()
+                header = re.search(r'"""[\s\S]*?"""' if path.suffix == ".py"
+                                   else r"/\*\*[\s\S]*?\*/", source).group()
+                self.assertIn("Package: Suppeth" if path.suffix == ".py"
+                              else "@package Suppeth", header)
+                self.assertIn("Since: Suppeth" if path.suffix == ".py"
+                              else "@since Suppeth", header)
+        slugs = [re.search(r"^ \* Slug: (.+)$", path.read_text(), re.M)[1]
+                 for path in THEME.glob("patterns/*.php")]
+        self.assertEqual(len(slugs), len(set(slugs)))
+        for name in ["default-footer", "default-sidebar"]:
+            self.assertIn("suppeth/" + name, slugs)
+        expected = {"hidden-" + path.stem for path in THEME.glob("templates/*.html")}
+        expected.update({"hidden-default-footer", "hidden-default-sidebar",
+                         "header-search", "header-centered", "header-two-row", "header-sticky",
+                         "footer-compact", "footer-centered", "footer-columns", "footer-search"})
+        self.assertEqual({path.stem for path in THEME.glob("patterns/*.php")}, expected)
+
     def test_standalone_theme_identity(self):
         self.assertEqual(THEME, ROOT)
         css = (THEME / "style.css").read_text()
@@ -168,7 +220,7 @@ class ThemeTests(unittest.TestCase):
             self.assertIn('"width":"33.33%"', source)
             self.assertNotIn('"isStackedOnMobile":false', source)
             self.assertEqual(source.count('"slug":"sidebar","tagName":"aside"'), 1)
-            self.assertNotIn('"slug":"sidebar"', (THEME / "templates" / (name.split("-")[0] + ".html")).read_text())
+            self.assertNotIn('"slug":"sidebar"', read_markup(THEME / "templates" / (name.split("-")[0] + ".html")))
         for name in ["page-sidebar", "single-sidebar"]:
             source = read_markup(THEME / "templates" / (name + ".html"))
             self.assertIn('"contentSize":"100%","wideSize":"100%"', source)

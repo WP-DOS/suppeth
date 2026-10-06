@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Create a deterministic WordPress theme ZIP using only the standard library."""
+"""Create a deterministic WordPress theme ZIP using only the standard library.
+
+Package: Suppeth
+Since: Suppeth 0.1.6
+"""
 from pathlib import Path
 from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
 

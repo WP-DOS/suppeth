@@ -1,4 +1,9 @@
-/* Animate native Details blocks without changing saved markup or ALT disclosures. */
+/**
+ * Animate native Details blocks without changing saved markup or ALT disclosures.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.5
+ */
 (() => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const controllers = [];

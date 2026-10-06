@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Run real-WordPress checks and require an explicit PHP success receipt."""
+"""Run real-WordPress checks and require an explicit PHP success receipt.
+
+Package: Suppeth
+Since: Suppeth 0.1.6
+"""
 import argparse
 import json
 from pathlib import Path

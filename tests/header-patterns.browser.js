@@ -1,4 +1,9 @@
-// Run on the frontend after choosing one of Suppeth's header patterns.
+/**
+ * Run on the frontend after choosing one of Suppeth's header patterns.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 (async () => {
   const header = document.querySelector('header.wp-block-template-part');
   const failures = [];

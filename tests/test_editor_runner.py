@@ -1,4 +1,8 @@
-"""Regression coverage for Playground's cookie-based readiness redirect."""
+"""Regression coverage for Playground's cookie-based readiness redirect.
+
+Package: Suppeth
+Since: Suppeth 0.1.6
+"""
 import importlib.util
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path

@@ -6,6 +6,7 @@
  * Inserter: no
  *
  * @package Suppeth
+ * @since Suppeth 0.1.5
  */
 
 ?>

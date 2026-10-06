@@ -1,4 +1,9 @@
-// Run on /elements-proof/ to check the disabled form specimen.
+/**
+ * Run on /elements-proof/ to check the disabled form specimen.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 (() => {
     const input = document.querySelector('#proof-disabled-input');
     if (!input) throw new Error('Missing disabled specimen');

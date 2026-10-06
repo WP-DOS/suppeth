@@ -1,5 +1,10 @@
 <?php
-/** Minimal WordPress stand-ins for filesystem-only pattern tests, not runtime proof. */
+/**
+ * Minimal WordPress stand-ins for filesystem-only pattern tests, not runtime proof.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 function __( $text, $domain ) {
 	return getenv( 'SUPPETH_TEST_TRANSLATION' ) ? 'Translated " < > -- & ' . $text : $text;
 }

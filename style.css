@@ -1,8 +1,8 @@
-/*
+/**
 Theme Name: Suppeth
 Description: A minimal, standalone block theme for wp-dos.com. Native blocks, locally bundled sans-serif fonts, and an editable design system.
 Author: Nicola Mustone
-Version: 0.1.6
+Version: 0.1.7
 Requires at least: 7.1
 Tested up to: 7.1
 Requires PHP: 7.4
@@ -10,6 +10,9 @@ License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: suppeth
 Tags: full-site-editing, one-column, two-columns, right-sidebar, wide-blocks, block-styles, blog
+
+@package Suppeth
+@since Suppeth 0.1.5
 */
 
 @media (prefers-reduced-motion: no-preference) {

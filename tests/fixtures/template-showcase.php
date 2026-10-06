@@ -1,5 +1,10 @@
 <?php
-/** Reusable template demonstrations, restricted to the disposable local preview. */
+/**
+ * Reusable template demonstrations, restricted to the disposable local preview.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 require_once '/wordpress/wp-load.php';
 if (!in_array(wp_parse_url(home_url(), PHP_URL_HOST), array('127.0.0.1', 'localhost'), true) || get_stylesheet() !== 'suppeth') {
     throw new RuntimeException('Template showcases require the local Suppeth sandbox.');

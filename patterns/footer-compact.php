@@ -7,6 +7,7 @@
  * Description: Site title and wrapping navigation in a quiet row, followed by a WordPress credit.
  *
  * @package Suppeth
+ * @since Suppeth 0.1.5
  */
 
 ?>

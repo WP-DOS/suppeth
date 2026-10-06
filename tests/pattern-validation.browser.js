@@ -1,4 +1,9 @@
-// Run in the authenticated Site Editor, where WordPress has registered core blocks.
+/**
+ * Run in the authenticated Site Editor, where WordPress has registered core blocks.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 (async () => {
 	if (!window.wp?.blocks || !window.wp?.apiFetch) {
 		throw new Error('Open the Site Editor before running pattern validation.');

@@ -1,5 +1,10 @@
-// Run against /block-style-test/ in the local Playground, or the editor canvas.
-// npx agent-browser --session suppeth-styles eval --stdin < tests/block-styles.browser.js
+/**
+ * Run against /block-style-test/ in the local Playground, or the editor canvas.
+ * npx agent-browser --session suppeth-styles eval --stdin < tests/block-styles.browser.js
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 (() => {
 	const doc = document.querySelector('iframe[name="editor-canvas"]')?.contentDocument || document;
 	const view = doc.defaultView;

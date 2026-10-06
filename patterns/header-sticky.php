@@ -7,6 +7,7 @@
  * Description: Compact branding and navigation that remain visible while scrolling.
  *
  * @package Suppeth
+ * @since Suppeth 0.1.5
  */
 
 ?>

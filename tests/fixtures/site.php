@@ -1,5 +1,10 @@
 <?php
-/** Editorial demo; loaded by seed.php only inside the disposable local preview. */
+/**
+ * Editorial demo; loaded by seed.php only inside the disposable local preview.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 if (!isset($upsert, $visit, $author_id) || !in_array(wp_parse_url(home_url(), PHP_URL_HOST), array('127.0.0.1', 'localhost'), true)) {
     throw new Exception('Run the local fixture seeder first.');
 }

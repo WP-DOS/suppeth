@@ -1,4 +1,9 @@
-// Run on any sidebar variant at desktop and mobile widths in the local preview.
+/**
+ * Run on any sidebar variant at desktop and mobile widths in the local preview.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.6
+ */
 (() => {
   const layout = document.querySelector('.suppeth-sidebar-layout');
   if (!layout) throw new Error('Open a sidebar template before running this check.');

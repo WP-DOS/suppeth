@@ -19,6 +19,12 @@ python3 scripts/package-theme.py
 
 The ZIP is dist/suppeth.zip. Packaging uses an explicit runtime allowlist; docs, tests, fixtures, credentials and dependencies remain outside it. CI publishes the suppeth-theme artifact.
 
+## Source conventions
+
+PHP and JavaScript source files use file-level docblocks with `@package Suppeth` and `@since Suppeth <version>`; Python modules use equivalent module docstrings. Keep WordPress stylesheet metadata in `style.css`. JSON and block-only HTML files remain in their native formats.
+
+Name patterns with `Inserter: no` as `hidden-*.php`; insertable patterns use unprefixed filenames. Every HTML template references its complete `hidden-<template>.php` pattern. Keep labels, search forms, pagination, and recovery messages inline within complete template patterns rather than registering small helper patterns. Separate patterns represent complete templates or shared header, footer, and sidebar designs. The default footer and sidebar retain their existing registered slugs. Resolve patterns by their `Slug` metadata, not by filename.
+
 ## Fixed disposable preview
 
 tests/blueprint.json is the reusable fixture blueprint, pinned to WordPress 7.1 / PHP 8.3. From the repository root:
