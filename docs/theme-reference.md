@@ -2,6 +2,12 @@
 
 Current behavior, not the future neutral-design specification. Run browser checks from the theme repository; see [development](development.md).
 
+## Default typography and colors
+
+Source Serif 4 is the reading face; Cormorant Garamond supplies the headings and site title. The default palette uses near-white Paper (`#fbfaf7`), blue-black Ink (`#263b43`), muted secondary ink, and dark antique-gold links. Subtle parchment surfaces and borders keep the page quiet rather than decorative. Body text stays at 18 px with generous line spacing; headings scale fluidly, with serif shapes given more room at title sizes.
+
+Fonts and colors are native Site Editor presets. Existing sans-serif choices remain available, and saved Global Styles still take precedence. Text and links meet WCAG AA contrast on Paper; input borders and focus indicators retain usable contrast. See [bundled fonts](../assets/fonts/README.md) for sources, licenses and fallback coverage.
+
 ## Customize
 
 Each file in `templates/` references a complete hidden PHP pattern, such as `patterns/hidden-404.php`. These patterns are registered with `Inserter: no`: they supply editable template blocks without appearing in the pattern inserter. Template-owned text comes from hidden PHP patterns so headings, labels, navigation, and recovery messages can be translated. Bundled translations can live under `languages/`. These remain native editable blocks; saved Site Editor customizations are not automatically replaced or translated by a theme update.
@@ -67,6 +73,6 @@ npx agent-browser --session suppeth-styles eval --stdin < tests/image-layout.bro
 
 Keep the test site private. After activation, check the empty homepage, then create a test post with a long title, headings, lists, links, an image, and a code block. Check a page, category archive, search with and without results, and an unknown URL. Inspect desktop and mobile layouts, keyboard focus, the navigation overlay, comments, and pagination. Confirm that the Site Editor matches the frontend.
 
-Measure performance with representative content and plugins. The theme serves its three Latin-subset variable fonts locally (about 90 KB combined); it requests no remote fonts. Font licenses and source details live in `assets/fonts/`. Other scripts use the system fallback for glyphs outside the bundled subsets. Its image-description script is loaded only when described image blocks are rendered; core blocks and plugins can still add assets. Structural checks do not replace testing in WordPress.
+Measure performance with representative content and plugins. The theme serves its selected Latin-subset fonts locally; the default normal body and heading faces total about 156 KB, with italic, code and optional sans-serif faces requested when used. It requests no remote fonts. Font licenses and source details live in `assets/fonts/`. Other scripts use the system fallback for glyphs outside the bundled subsets. Its image-description script is loaded only when described image blocks are rendered; core blocks and plugins can still add assets. Structural checks do not replace testing in WordPress.
 
 Local credentials and Pi session files stay out of Git and deployment.

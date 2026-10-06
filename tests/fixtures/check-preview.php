@@ -17,6 +17,13 @@ foreach (array('elements-proof', 'typography-proof', 'journal', 'services', 'por
 if (get_stylesheet() !== 'suppeth' || wp_count_posts()->publish < 7 || get_comments(array('count' => true)) < 3) {
     throw new RuntimeException('Preview theme, posts or comments are missing.');
 }
+$lead_post = get_page_by_path('sample-guide-1', OBJECT, 'post');
+$featured_image = get_page_by_path('suppeth-fixture-suppeth-featured', OBJECT, 'attachment');
+$home = get_post(get_option('page_on_front'));
+if (!$lead_post || !$featured_image || get_post_thumbnail_id($lead_post) !== $featured_image->ID ||
+    !$home || strpos($home->post_content, 'wp-image-' . $featured_image->ID . '"') === false) {
+    throw new RuntimeException('Suppeth artwork must be the lead post thumbnail and homepage image.');
+}
 foreach (array('templates', 'template-page', 'template-page-sidebar', 'template-index-sidebar') as $slug) {
     if (!get_page_by_path($slug)) { throw new RuntimeException('Missing template showcase: ' . $slug); }
 }

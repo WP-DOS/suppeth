@@ -61,18 +61,18 @@ $upsert = function ($type, $slug, $title, $content, $extra = array()) {
     return $id;
 };
 
-$media = function ($name, $alt) {
+$media = function ($name, $alt, $extension = 'png') {
     $slug = 'suppeth-fixture-' . $name;
     $existing = get_page_by_path($slug, OBJECT, 'attachment');
     if ($existing) {
         return $existing->ID;
     }
-    $upload = wp_upload_bits($slug . '.png', null, file_get_contents('/tmp/suppeth-' . $name . '.png'));
+    $upload = wp_upload_bits($slug . '.' . $extension, null, file_get_contents('/tmp/suppeth-' . $name . '.' . $extension));
     if ($upload['error']) {
         throw new Exception($upload['error']);
     }
     $id = wp_insert_attachment(array(
-        'post_mime_type' => 'image/png', 'post_title' => 'Local sample ' . $name,
+        'post_mime_type' => wp_check_filetype($upload['file'])['type'], 'post_title' => 'Local sample ' . $name,
         'post_name' => $slug, 'post_status' => 'inherit',
     ), $upload['file'], 0, true);
     if (is_wp_error($id)) {

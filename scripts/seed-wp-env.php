@@ -25,7 +25,7 @@ foreach ( $manifest as $fixture ) {
 		$destination = WPMU_PLUGIN_DIR . '/suppeth-demo-contact.php';
 	} elseif ( 'mu-plugins/demo-contact.js' === $destination ) {
 		$destination = WPMU_PLUGIN_DIR . '/demo-contact.js';
-	} elseif ( ! preg_match( '#^/tmp/suppeth-[a-z-]+\.(php|html|png)$#', $destination ) ) {
+	} elseif ( ! preg_match( '#^/tmp/suppeth-[a-z-]+\.(php|html|png|webp)$#', $destination ) ) {
 		throw new RuntimeException( 'Unexpected fixture destination.' );
 	}
 	if ( ! wp_mkdir_p( dirname( $destination ) ) || ! copy( $source, $destination ) ) {

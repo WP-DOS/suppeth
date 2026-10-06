@@ -16,6 +16,10 @@
     "destination": "/tmp/suppeth-landscape.png"
   },
   {
+    "source": "suppeth-featured.webp",
+    "destination": "/tmp/suppeth-suppeth-featured.webp"
+  },
+  {
     "source": "square.png",
     "destination": "/tmp/suppeth-square.png"
   },
