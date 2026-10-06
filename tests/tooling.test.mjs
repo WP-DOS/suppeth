@@ -41,6 +41,27 @@ test( 'ZIP is reproducible and contains runtime files only', () => {
 	}
 } );
 
+test( 'default text and controls have accessible contrast; fonts stay local', () => {
+	const theme = JSON.parse( readFileSync( new URL( 'theme.json', root ), 'utf8' ) );
+	const palette = Object.fromEntries( theme.settings.color.palette.map( ( color ) => [ color.slug, color.color ] ) );
+	const luminance = ( color ) => color.match( /[a-f\d]{2}/gi )
+		.map( ( value ) => parseInt( value, 16 ) / 255 )
+		.map( ( value ) => value <= 0.04045 ? value / 12.92 : ( ( value + 0.055 ) / 1.055 ) ** 2.4 )
+		.reduce( ( sum, value, index ) => sum + value * [ 0.2126, 0.7152, 0.0722 ][ index ], 0 );
+	for ( const slug of [ 'contrast', 'muted', 'accent', 'control-border' ] ) {
+		const levels = [ luminance( palette[ slug ] ), luminance( palette.base ) ].sort( ( a, b ) => b - a );
+		assert.ok( ( levels[ 0 ] + 0.05 ) / ( levels[ 1 ] + 0.05 ) >= ( slug === 'control-border' ? 3 : 4.5 ), slug );
+	}
+	for ( const family of theme.settings.typography.fontFamilies ) {
+		for ( const face of family.fontFace ?? [] ) {
+			for ( const source of face.src ) {
+				assert.match( source, /^file:\.\/assets\/fonts\// );
+				assert.equal( readFileSync( new URL( source.slice( 7 ), root ) ).subarray( 0, 4 ).toString(), 'wOF2' );
+			}
+		}
+	}
+} );
+
 test( 'editor checks reject hosted sites before opening a browser', () => {
 	const result = spawnSync( process.execPath, [ new URL( '../bin/check-editor.mjs', import.meta.url ).pathname, 'https://example.com' ], { encoding: 'utf8' } );
 	assert.notEqual( result.status, 0 );

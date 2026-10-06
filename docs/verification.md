@@ -12,6 +12,13 @@ Current commands and tooling are documented in [development](development.md). Hi
 - Node packaging produced `dist/suppeth.zip` using the runtime allowlist. Contributor tools, fixtures and dependencies remain excluded.
 - Python tests/runners and Playground configuration were removed. CI now uses the same npm/Composer/wp-env commands as local development; GitHub Actions execution itself has not been verified locally.
 
+## Serif defaults (0.1.8)
+
+- CSS/PHP/theme lint, all four Node checks, native WordPress runtime checks, all 20 editor patterns, fixture checks and packaging passed.
+- Browser inspection at 1440 × 1000 and 390 × 844 confirmed Source Serif 4 body text, Cormorant Garamond headings, the Paper background, loaded local font faces and no horizontal overflow.
+- Default contrast on Paper: Ink 11.25:1, secondary ink 5.69:1, links 6.54:1, control borders 4.23:1. These ratios cover the default palette, not arbitrary user-selected combinations.
+- Layout spacing and native controls remain unchanged. Existing sans-serif presets remain available; the new defaults do not reset saved Global Styles.
+
 ## Runtime compatibility
 
 scripts/check-runtime.py produced explicit successful PHP receipts using Playground CLI 3.1.57:

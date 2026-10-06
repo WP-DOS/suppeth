@@ -107,7 +107,8 @@ foreach ($articles as $article) {
     wp_set_post_terms($id, $tags, 'post_tag');
     $post_ids[$slug] = $id;
 }
-set_post_thumbnail($post_ids['sample-guide-1'], $image_id);
+$suppeth_image_id = $media('suppeth-featured', 'Suppeth in an elegant serif beside a winking medieval nobleman in blue and gold clothing.', 'webp');
+set_post_thumbnail($post_ids['sample-guide-1'], $suppeth_image_id);
 set_post_thumbnail($post_ids['sample-guide-2'], $square_id);
 // Keep some articles imageless to exercise the optional Featured Image block.
 
@@ -158,8 +159,14 @@ foreach ($pages as $slug => $page) {
     $page_ids[$slug] = $upsert('page', $slug, $page[0], $page[1], array('post_author' => $author_id, 'comment_status' => 'closed'));
 }
 
+$suppeth_image = '<!-- wp:image ' . serialize_block_attributes(array(
+    'id' => $suppeth_image_id, 'sizeSlug' => 'full', 'linkDestination' => 'none', 'align' => 'wide',
+)) . ' --><figure class="wp-block-image alignwide size-full"><img src="'
+    . esc_url(wp_get_attachment_url($suppeth_image_id)) . '" alt="'
+    . esc_attr(get_post_meta($suppeth_image_id, '_wp_attachment_image_alt', true))
+    . '" class="wp-image-' . $suppeth_image_id . '" width="1920" height="1080"/></figure><!-- /wp:image -->';
 $home = $paragraph('A small notebook about WordPress, thoughtful design, and making room for the work that matters.')
-    . $image
+    . $suppeth_image
     . $heading('Start here')
     . $paragraph('I am Alex. I write about making websites that are comfortable to read and straightforward to use. ' . $link(get_permalink($page_ids['about']), 'More about this notebook') . '.')
     . $heading('Recent writing')

@@ -15,38 +15,38 @@
       "palette": [
         {
           "slug": "base",
-          "name": "Background",
-          "color": "#ffffff"
+          "name": "Paper",
+          "color": "#fbfaf7"
         },
         {
           "slug": "contrast",
-          "name": "Text",
-          "color": "#444444"
+          "name": "Ink",
+          "color": "#263b43"
         },
         {
           "slug": "muted",
-          "name": "Secondary",
-          "color": "#686868"
+          "name": "Secondary ink",
+          "color": "#62655d"
         },
         {
           "slug": "accent",
-          "name": "Links",
-          "color": "#174ea6"
+          "name": "Antique gold links",
+          "color": "#75551f"
         },
         {
           "slug": "surface",
-          "name": "Subtle background",
-          "color": "#f6f7f8"
+          "name": "Soft parchment",
+          "color": "#f2efe7"
         },
         {
           "slug": "border",
-          "name": "Borders",
-          "color": "#e7e7e7"
+          "name": "Paper borders",
+          "color": "#ded8cb"
         },
         {
           "slug": "control-border",
           "name": "Control borders",
-          "color": "#888888"
+          "color": "#827760"
         }
       ]
     },
@@ -87,6 +87,47 @@
       "fluid": true,
       "defaultFontSizes": false,
       "fontFamilies": [
+        {
+          "slug": "source-serif-4",
+          "name": "Source Serif 4",
+          "fontFamily": "\"Source Serif 4\", Georgia, \"Times New Roman\", serif",
+          "fontFace": [
+            {
+              "fontFamily": "Source Serif 4",
+              "fontStyle": "normal",
+              "fontWeight": "400 700",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/source-serif-4-normal-latin.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Source Serif 4",
+              "fontStyle": "italic",
+              "fontWeight": "400 700",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/source-serif-4-italic-latin.woff2"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "cormorant-garamond",
+          "name": "Cormorant Garamond",
+          "fontFamily": "\"Cormorant Garamond\", Georgia, \"Times New Roman\", serif",
+          "fontFace": [
+            {
+              "fontFamily": "Cormorant Garamond",
+              "fontStyle": "normal",
+              "fontWeight": "400 700",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/cormorant-garamond-latin.woff2"
+              ]
+            }
+          ]
+        },
         {
           "slug": "system",
           "name": "System sans",
@@ -151,28 +192,28 @@
         {
           "slug": "large",
           "name": "Heading",
-          "size": "1.5rem",
+          "size": "1.625rem",
           "fluid": {
-            "min": "1.25rem",
-            "max": "1.5rem"
+            "min": "1.375rem",
+            "max": "1.625rem"
           }
         },
         {
           "slug": "x-large",
           "name": "Large heading",
-          "size": "1.75rem",
+          "size": "2rem",
           "fluid": {
-            "min": "1.375rem",
-            "max": "1.75rem"
+            "min": "1.625rem",
+            "max": "2rem"
           }
         },
         {
           "slug": "xx-large",
           "name": "Page title",
-          "size": "2.25rem",
+          "size": "3rem",
           "fluid": {
-            "min": "1.75rem",
-            "max": "2.25rem"
+            "min": "2.25rem",
+            "max": "3rem"
           }
         }
       ]
@@ -191,7 +232,7 @@
       }
     },
     "typography": {
-      "fontFamily": "var:preset|font-family|dm-sans",
+      "fontFamily": "var:preset|font-family|source-serif-4",
       "fontSize": "var:preset|font-size|medium",
       "lineHeight": "1.7"
     },
@@ -206,9 +247,9 @@
       },
       "heading": {
         "typography": {
-          "fontFamily": "var:preset|font-family|manrope",
-          "fontWeight": "400",
-          "lineHeight": "1.3"
+          "fontFamily": "var:preset|font-family|cormorant-garamond",
+          "fontWeight": "500",
+          "lineHeight": "1.2"
         }
       },
       "h1": {
@@ -255,9 +296,9 @@
     "blocks": {
       "core/site-title": {
         "typography": {
-          "fontFamily": "var:preset|font-family|manrope",
+          "fontFamily": "var:preset|font-family|cormorant-garamond",
           "fontSize": "var:preset|font-size|large",
-          "fontWeight": "400"
+          "fontWeight": "600"
         },
         "elements": {
           "link": {
