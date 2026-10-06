@@ -84,6 +84,15 @@
       "code": "<?php require '/tmp/suppeth-seed.php';"
     },
     {
+      "step": "writeFile",
+      "path": "/tmp/suppeth-template-showcase.php",
+      "data": { "resource": "bundled", "path": "fixtures/template-showcase.php" }
+    },
+    {
+      "step": "runPHP",
+      "code": "<?php require '/tmp/suppeth-template-showcase.php';"
+    },
+    {
       "step": "login",
       "username": "admin",
       "password": "password"
