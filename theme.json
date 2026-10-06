@@ -498,6 +498,46 @@
       "area": "footer"
     },
     {
+      "name": "header-search",
+      "title": "Header with search",
+      "area": "header"
+    },
+    {
+      "name": "header-centered",
+      "title": "Centered header",
+      "area": "header"
+    },
+    {
+      "name": "header-two-row",
+      "title": "Two-row header with search",
+      "area": "header"
+    },
+    {
+      "name": "header-sticky",
+      "title": "Sticky header",
+      "area": "header"
+    },
+    {
+      "name": "footer-compact",
+      "title": "Compact footer",
+      "area": "footer"
+    },
+    {
+      "name": "footer-centered",
+      "title": "Centered footer",
+      "area": "footer"
+    },
+    {
+      "name": "footer-columns",
+      "title": "Footer with columns",
+      "area": "footer"
+    },
+    {
+      "name": "footer-search",
+      "title": "Footer with search",
+      "area": "footer"
+    },
+    {
       "name": "sidebar",
       "title": "Sidebar",
       "area": "uncategorized"
