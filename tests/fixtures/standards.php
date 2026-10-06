@@ -18,6 +18,11 @@ function suppeth_test_assert( $condition, $message ) {
 }
 suppeth_test_assert( version_compare( get_bloginfo( 'version' ), '7.1', '>=' ), 'WordPress must be 7.1+.' );
 suppeth_test_assert( 'suppeth' === get_stylesheet(), 'Suppeth must be active.' );
+// Core discovers theme-scoped partial presets recursively under styles/.
+$variations = WP_Theme_JSON_Resolver::get_style_variations();
+foreach ( array( 'Serif', 'Sans', 'Paper', 'Neutral' ) as $title ) {
+	suppeth_test_assert( in_array( $title, wp_list_pluck( $variations, 'title' ), true ), 'Missing style preset: ' . $title );
+}
 $registry = WP_Block_Patterns_Registry::get_instance();
 foreach ( glob( get_template_directory() . '/patterns/*.php' ) as $file ) {
 	$headers = get_file_data( $file, array( 'slug' => 'Slug', 'inserter' => 'Inserter' ) );
@@ -71,21 +76,10 @@ foreach ( glob( get_template_directory() . '/patterns/*.php' ) as $file ) {
 }
 remove_filter( 'gettext', $translate, 10 );
 
-foreach ( array( false, true ) as $linked ) {
-	$image = '<img src="example.jpg" alt="A &lt;safe&gt; description &amp; more">';
-	if ( $linked ) {
-		$image = '<a href="https://example.test/">' . $image . '</a>';
-	}
-	$html = suppeth_render_image_description( '<figure>' . $image . '</figure>' );
-	suppeth_test_assert( false !== strpos( $html, '<div class="suppeth-image-frame">' ), 'Image wrapper must allow flow content.' );
-	suppeth_test_assert( false !== strpos( $html, '<p>A &lt;safe&gt; description &amp; more</p>' ), 'ALT text must be escaped.' );
-	if ( $linked ) {
-		suppeth_test_assert( false !== strpos( $html, '</a><details' ), 'Disclosure must remain outside the image link.' );
-	}
-}
-foreach ( array( '<figure><img alt=""></figure>', '<figure><picture><img alt="Description"></picture></figure>' ) as $html ) {
-	suppeth_test_assert( $html === suppeth_render_image_description( $html ), 'Excluded image markup changed.' );
-}
+// Theme activation must not add plugin behavior or rewrite image markup.
+suppeth_test_assert( ! function_exists( 'suppeth_render_image_description' ), 'Image disclosures do not belong to the theme.' );
+$native_details = do_blocks( '<!-- wp:details --><details class="wp-block-details"><summary>Native details</summary><p>Content</p></details><!-- /wp:details -->' );
+suppeth_test_assert( false === strpos( $native_details, 'suppeth-details' ) && ! wp_script_is( 'suppeth-details', 'enqueued' ), 'Theme must not enhance native Details.' );
 
 // Exercise a subdirectory homepage without changing the local site's URL.
 $subdirectory_home = static function ( $url, $path ) {

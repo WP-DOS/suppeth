@@ -7,7 +7,7 @@ Version: 0.1.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A minimal standalone FSE theme. No parent theme, remote font requests, or production build dependencies. Source Serif 4 and Cormorant Garamond provide the default reading and heading fonts, with JetBrains Mono for code. DM Sans and Manrope remain available as optional presets. All fonts are bundled locally and registered through theme.json. Small optional scripts enhance image descriptions and animate native Details blocks, respecting reduced-motion preferences.
+A minimal standalone FSE theme. No parent theme, remote font requests, or production build dependencies. System sans-serif and neutral colors provide the default starting point. Source Serif 4 and Cormorant Garamond are available through the optional Serif typography preset, with JetBrains Mono for code. A selectable Sans typography preset pairs DM Sans with Manrope. Independent Paper and Neutral color presets can be combined with either typography preset. All fonts are bundled locally and registered through theme.json. Native blocks retain WordPress behavior; the theme adds no frontend scripts or image disclosures.
 
 == Installation ==
 Upload the packaged suppeth.zip under Appearance > Themes > Add New > Upload Theme, then activate Suppeth.

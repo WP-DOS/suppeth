@@ -13,8 +13,6 @@ composer install
 npm run lint
 find patterns -name '*.php' -exec php -l {} \;
 php -l functions.php
-node --check assets/image-descriptions.js
-node --check assets/details.js
 npm run env:setup
 npm test
 npm run package
@@ -51,7 +49,7 @@ npm run env:status
 npm run env:stop
 ```
 
-The development preview is at <http://localhost:8899>. `env:setup` starts WordPress 7.1.2 / PHP 8.3, activates Suppeth, and seeds the synthetic Quiet Edit site described below. `env:start` starts or resumes it without changing the active theme. The public, local-only wp-env login is `admin` / `password`. Debug logging and theme development mode are enabled; debug output stays off the frontend. The theme is mounted live, with `node_modules` hidden from the container.
+The development preview is at <http://localhost:8899>. `env:setup` starts WordPress 7.1.2 / PHP 8.3, activates Suppeth, and seeds the minimal Suppeth showcase described below. `env:start` starts or resumes it without changing the active theme. The public, local-only wp-env login is `admin` / `password`. Debug logging and theme development mode are enabled; debug output stays off the frontend. The theme is mounted live, with `node_modules` hidden from the container.
 
 `npm run env:seed` reapplies the sample content without restarting Docker. It updates fixture-owned pages, posts, menus, and saved Header/Footer/showcase templates, plus Reading settings and the site title; it is for this disposable local site, not a way to preserve manual fixture customizations. The seeder rejects non-local sites, requires Suppeth and WP-CLI, and uses the fixture manifest in `tests/fixtures/manifest.json`. Images, comments and showcase menus are reused on subsequent runs. The local contact helper is installed as a development-only mu-plugin and never sends or stores messages. Optional `npm run env:theme-check` installs and activates Theme Check locally. `npm run env:reset` resets this local database and its saved Site Editor customizations; do not use it when you want to keep them. Local overrides belong in ignored `.wp-env.override.json`. See the [wp-env documentation](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/).
 
@@ -65,7 +63,9 @@ Name patterns with `Inserter: no` as `hidden-*.php`; insertable patterns use unp
 
 The Docker preview is disposable. Use `env:reset` followed by `env:setup` to reset content and saved template overrides. Never run fixture seeders against a real website. The local login credentials are public test-only values, not production secrets.
 
-The fixtures cover long content, pagination, navigation, images, comments, typography, core blocks and empty/disabled controls. A **Templates** submenu links to eight default/sidebar comparisons; start at /templates/. New routes are /template-page/, /template-page-sidebar/, /template-post-sidebar/, /template-index-sidebar/, and /category/template-showcase/. Page and Post examples use native template assignments. Index and Archive examples use route-scoped, preview-only saved templates sourced from the theme files, with pattern references expanded before saving to preserve query/pagination context; the normal Journal and other category archives stay unchanged. The showcase seeder updates its own content and replaces its own submenu entry when rerun. The Quiet Edit is a fictional test site with /journal/, /services/, /portfolio/ and /contact/. Independent proofs live at /elements-proof/ and /typography-proof/; legacy checks use /block-style-test/ and /typography-test/. The local contact helper never sends or stores messages.
+The preview contains three posts: **Meet Suppeth** (with the Suppeth featured artwork), **Typography** at /typography/, and **Blocks** at /blocks/. The homepage uses the theme's latest-posts index, with two posts per page to exercise pagination. Information pages are /about/, /portfolio/ (Portfolio / Services), and /contact/. The header shows the site title, linked to home, and the tagline: “A simple starting point for your WordPress site.”
+
+The **Templates** submenu links to ten pages, one for each file in templates/: /template-index/, /template-index-sidebar/, /template-page/, /template-page-sidebar/, /template-single/, /template-single-sidebar/, /template-archive/, /template-archive-sidebar/, /template-search/, and /template-404/. Start at /templates/. These use route-scoped, preview-only saved templates sourced from the theme files, with pattern references expanded before saving. Listing previews use explicit post queries; Search and 404 pages demonstrate the layout, while real searches and unknown URLs exercise their normal behavior. Re-seeding removes retired fixture-owned content and rebuilds the showcase without adding posts or menu entries. Unrelated local content is preserved. The local contact helper never sends or stores messages. Older regression HTML remains in tests/fixtures/ for dedicated test scenarios, but is not published by the seeder.
 
 ## Runtime checks
 
@@ -76,11 +76,11 @@ npm run test:editor
 npm run env:check
 ```
 
-The compact PHP suite in `tests/fixtures/standards.php` runs through wp-env's WP-CLI and covers real registration, rendering, translations and parser round trips, subdirectory links, template-part discovery, and image-description escaping. Node tests verify reproducible runtime-only ZIPs and local-only test guards. `bin/check-editor.mjs` runs `tests/pattern-validation.browser.js` against the real Site Editor parser, checking all registered patterns, retained attributes and editor serialization round trips. It requires an explicit success result. These checks retain regressions static lint cannot catch; they do not assert exact layout strings or fixed implementation details. Other browser scripts in tests/*.browser.js remain manual checks. With a running preview, for example:
+The compact PHP suite in `tests/fixtures/standards.php` runs through wp-env's WP-CLI and covers real registration, rendering, translations and parser round trips, subdirectory links, template-part discovery, and native image/Details behavior. Node tests verify reproducible runtime-only ZIPs and local-only test guards. `bin/check-editor.mjs` runs `tests/pattern-validation.browser.js` against the real Site Editor parser, checking all registered patterns, retained attributes and editor serialization round trips. It requires an explicit success result. These checks retain regressions static lint cannot catch; they do not assert exact layout strings or fixed implementation details. Other browser scripts in tests/*.browser.js remain manual checks. With a running preview, for example:
 
 ```sh
-npx agent-browser --session suppeth-styles open http://localhost:8899/elements-proof/
-npx agent-browser --session suppeth-styles eval --stdin < tests/block-styles.browser.js
+npx agent-browser --session suppeth-styles open http://localhost:8899/blocks/
+npx agent-browser --session suppeth-styles eval --stdin < tests/native-images.browser.js
 ```
 
 For the editor-parser regression suite against the running Docker preview:
@@ -90,7 +90,7 @@ npm run test:editor
 npm run env:check
 ```
 
-The runner uses agent-browser 0.38.2, signs in with the public wp-env admin/password account, and closes only its own browser session. CI completes `env:setup` before running the checks. Theme-supplied patterns are read-only in the library; see [header replacement](theme-reference.md#header-patterns).
+The runner uses agent-browser 0.38.2, signs in with the public wp-env admin/password account, and closes only its own browser session. CI completes `env:setup` before running the checks. Theme-supplied patterns are read-only in the library; see [template-part replacement](theme-reference.md#templates-and-patterns).
 
 On /templates/, run tests/template-showcase.browser.js to check every submenu destination, layout and post query. Run tests/sidebar-layout.browser.js on each sidebar example at desktop and mobile widths.
 

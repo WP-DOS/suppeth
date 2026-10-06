@@ -30,6 +30,8 @@ echo '<!-- wp:search ' . serialize_block_attributes(
 		'buttonText'    => __( 'Search', 'suppeth' ),
 		'buttonUseIcon' => true,
 		'className'     => 'suppeth-header-search',
+		'width'         => 260,
+		'widthUnit'     => 'px',
 	)
 ) . ' /-->';
 ?>

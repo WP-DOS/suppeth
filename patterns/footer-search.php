@@ -51,6 +51,8 @@ echo '<!-- wp:search ' . serialize_block_attributes(
 		'buttonText'    => __( 'Search', 'suppeth' ),
 		'buttonUseIcon' => true,
 		'className'     => 'suppeth-footer-search',
+		'width'         => 384,
+		'widthUnit'     => 'px',
 	)
 ) . ' /-->';
 ?>

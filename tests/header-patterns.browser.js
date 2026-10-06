@@ -34,15 +34,6 @@
     check(!!header.querySelector('.wp-block-navigation__responsive-container.is-menu-open'), 'Mobile menu did not open');
     header.querySelector('.wp-block-navigation__responsive-container-close')?.click();
   }
-  if (header?.querySelector('.suppeth-header-sticky')) {
-    scrollTo({ top: 650, behavior: 'instant' });
-    await new Promise(resolve => requestAnimationFrame(resolve));
-    const bar = document.querySelector('#wpadminbar');
-    const offset = bar && getComputedStyle(bar).position === 'fixed' ? bar.getBoundingClientRect().bottom : 0;
-    check(getComputedStyle(header).position === 'sticky', 'Header is not sticky');
-    check(Math.abs(header.getBoundingClientRect().top - offset) <= 1, 'Sticky header overlaps the admin bar or scrolls away');
-    scrollTo({ top: 0, behavior: 'instant' });
-  }
   if (failures.length) throw new Error(failures.join('; '));
-  return { status: 'passed', width: innerWidth, search: !!search, sticky: !!header?.querySelector('.suppeth-header-sticky') };
+  return { status: 'passed', width: innerWidth, search: !!search };
 })();

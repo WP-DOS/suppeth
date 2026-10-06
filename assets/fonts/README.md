@@ -1,10 +1,10 @@
 # Bundled fonts
 
-The default reading face is **Source Serif 4**, paired with **Cormorant Garamond** for headings and the site title. **JetBrains Mono** remains the code face. **DM Sans** and **Manrope** remain optional Site Editor presets, preserving existing saved designs.
+The theme defaults to system sans-serif. The optional **Serif** typeset pairs **Source Serif 4** with **Cormorant Garamond** for headings and the site title; **Sans** pairs **DM Sans** with **Manrope**. **JetBrains Mono** is the code preset. Existing saved font selections remain editable.
 
 All faces are locally served Latin-subset variable WOFF2 files registered through `fontFace` and `file:./` paths in `theme.json`. No font stylesheet or binary is requested from a third-party host at runtime. Georgia/Times fallbacks supply serif glyphs outside these subsets; the sans and mono presets keep their own fallbacks.
 
-Source Serif 4 includes normal and true italic faces with optical sizing, registered at weights 400–700. Cormorant Garamond provides normal weights 400–700; italic uses synthesis. DM Sans/Manrope retain normal weights 400–600, and JetBrains Mono 400–700. Body and heading normal faces total about 156 KB; italic and optional font faces load when used.
+Source Serif 4 includes normal and true italic faces with optical sizing, registered at weights 400–700. Cormorant Garamond provides normal weights 400–700; italic uses synthesis. DM Sans/Manrope retain normal weights 400–600, and JetBrains Mono 400–700. The Serif typeset's normal body and heading faces total about 156 KB. Bundled faces load when used rather than supplying the default system typography.
 
 ## Sources and licenses
 

@@ -9,7 +9,7 @@
 		throw new Error('Open the Site Editor before running pattern validation.');
 	}
 	const required = [
-		'header-search', 'header-centered', 'header-two-row', 'header-sticky',
+		'header-search', 'header-centered', 'header-two-row',
 		'footer-compact', 'footer-centered', 'footer-columns', 'footer-search',
 	];
 	const patterns = (await wp.apiFetch({ path: '/wp/v2/block-patterns/patterns' }))

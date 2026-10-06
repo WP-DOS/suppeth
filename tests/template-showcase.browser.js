@@ -9,7 +9,7 @@
         .find((node) => node.querySelector('a')?.textContent.trim() === 'Templates');
     if (!submenu) throw new Error('The header Templates submenu is missing.');
     const links = [...submenu.querySelectorAll('.wp-block-navigation__submenu-container a')];
-    if (links.length !== 8) throw new Error('Expected eight template comparison links.');
+    if (links.length !== 10) throw new Error('Expected ten template preview pages.');
     const seen = new Set();
     const results = [];
     for (const link of links) {

@@ -1,0 +1,32 @@
+/**
+ * Local form specimen only; never distributed with the theme.
+ *
+ * @package Suppeth
+ * @since Suppeth 0.1.8
+ */
+.suppeth-demo-contact :where(input, textarea, select) {
+	box-sizing: border-box;
+	inline-size: 100%;
+	max-inline-size: 100%;
+	border: 1px solid var(--wp--preset--color--control-border);
+	border-radius: 6px;
+	padding: 0.75rem;
+	background: var(--wp--preset--color--base);
+	color: var(--wp--preset--color--contrast);
+	font: inherit;
+}
+.suppeth-demo-contact label {
+	display: block;
+	margin-block-end: 0.5rem;
+	font-size: var(--wp--preset--font-size--small);
+	color: var(--wp--preset--color--muted);
+}
+.suppeth-demo-contact :where(input, textarea, select):disabled {
+	background: var(--wp--preset--color--surface);
+	color: var(--wp--preset--color--muted);
+	cursor: not-allowed;
+}
+.suppeth-demo-contact button:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
